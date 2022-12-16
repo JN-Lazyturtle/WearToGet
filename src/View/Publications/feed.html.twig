@@ -1,0 +1,44 @@
+{% extends "base.html.twig" %}
+
+{% block page_title %}The Feed{% endblock %}
+
+{% block page_content %}
+    <main id="the-feed-main">
+        <div id="feed">
+            {%  if session.get('id') %}
+            <form id="feedy-new">
+                <fieldset>
+                    <legend>Nouveau feedy</legend>
+                    <div>
+                        <textarea required id="message" minlength="1" maxlength="250" name="message" placeholder="Qu'avez-vous en tête?"></textarea>
+                    </div>
+                    <div>
+                        <button type="button" id="feedy-new-submit" onclick="submitFeedy()">Feeder!</button>
+                    </div>
+                </fieldset>
+            </form>
+            {% endif %}
+            {% for publication in publications %}
+            <div class="feedy">
+                <div class="feedy-header">
+                    <a href="{{ route('page_perso', {"idUser" : publication.utilisateur.idUtilisateur}) }}"><img class="avatar" src="{{ asset("img/utilisateurs/" ~ publication.getUtilisateur().getProfilePictureName() ) }}" alt="avatar de l'utilisateur"></a>
+                    <div class="feedy-info">
+                        <span>{{publication.getUtilisateur().getLogin()}}</span>
+                        <span> - </span>
+                        <span>{{publication.getDate().format('d F Y')}}</span>
+                        <p>{{publication.getMessage()}}</p>
+                        {%  if session.get('id') %}
+                            {% if session.get('id') == publication.utilisateur.idUtilisateur %}
+                                <button class="delete-feedy" onclick="removeFeedy(this, {{ publication.idPublication }})">Supprimer</button>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% if not publications %}
+            <p id="no-publications" class="center">Pas de publications pour le moment!</p>
+        {% endif %}
+    </main>
+{% endblock %}

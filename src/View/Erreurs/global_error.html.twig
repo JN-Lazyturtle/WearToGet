@@ -1,0 +1,12 @@
+{% extends "base.html.twig" %}
+
+{% block page_title %}Erreur!{% endblock %}
+
+{% block page_content %}
+<div id="error-block-container" class="center">
+    <div class="error-block center">
+        {% block error_message %}{% endblock %}
+    </div>
+</div>
+{% endblock %}
+
