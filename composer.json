@@ -1,0 +1,19 @@
+{
+    "require": {
+        "symfony/http-foundation": "^5.4",
+        "symfony/routing": "^5.4",
+        "symfony/http-kernel": "^5.4",
+        "symfony/dependency-injection": "^5.1",
+        "twig/twig": "^3.4",
+        "ext-pdo": "*",
+        "symfony/mime": "^5.4"
+    },
+
+    "autoload": {
+        "psr-4": {
+            "TheFeed\\": "src",
+            "Framework\\": "external/Framework",
+            "Config\\": "config"
+        }
+    }
+}

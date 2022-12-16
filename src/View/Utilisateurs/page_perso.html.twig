@@ -1,0 +1,39 @@
+{% extends "base.html.twig" %}
+
+{% block page_title %}Page de {{ utilisateur.login }}{% endblock %}
+
+{% block page_content %}
+    <main id="the-feed-main">
+        {% if session.get('id') %}
+            {% if session.get('id') == utilisateur.idUtilisateur %}
+                <div class="center">
+                    <button id="btn-supprimer-compte" onclick="removeUser({{ session.get('id') }})">Supprimer mon compte</button>
+                </div>
+            {% endif %}
+        {% endif %}
+        {% if publications %}
+        <div id="feed">
+            {% for publication in publications %}
+                <div class="feedy">
+                    <div class="feedy-header">
+                        <img class="avatar" src="{{ asset("img/utilisateurs/" ~ publication.utilisateur.profilePictureName ) }}" alt="avatar de l'utilisateur">
+                        <div class="feedy-info">
+                            <span>{{publication.getUtilisateur().getLogin()}}</span>
+                            <span> - </span>
+                            <span>{{publication.getDate().format('d F Y')}}</span>
+                            <p>{{publication.getMessage()}}</p>
+                            {%  if session.get('id') %}
+                                {% if session.get('id') == publication.utilisateur.idUtilisateur %}
+                                    <button class="delete-feedy" onclick="removeFeedy(this, {{ publication.idPublication }})">Supprimer</button>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        {% else %}
+            <p id="no-publications" class="center">Pas de publications pour le moment!</p>
+        {% endif %}
+    </main>
+{% endblock %}

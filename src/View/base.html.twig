@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <title>{% block page_title %}{% endblock %}</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="{{ asset("css/styles.css") }}">
+    <script type="text/javascript" src="{{ asset("js/main.js") }}"></script>
+</head>
+<body>
+<script type="text/javascript">
+    var siteBase = "{{ getBaseUrl() }}";
+    var apiBase = siteBase+"/api/"
+    var pagePersoBase = siteBase+"/user/page/";
+    var imgBase = "{{ asset("img") }}"
+</script>
+<header>
+    <div id="titre" class="center">
+        <a href="{{route('feed')}}"><span>The Feed</span></a>
+        <nav>
+            <a href="{{ route("feed") }}">Accueil</a>
+            {%  if session.get('id') %}
+                <a href="{{ route("page_perso", {"idUser" : session.get('id')}) }}">Ma page</a>
+                <a href="{{ route("deconnexion") }}">Déconnexion</a>
+            {% else %}
+                <a href="{{ route("inscription") }}">Inscription</a>
+                <a href="{{ route("connexion") }}">Connexion</a>
+            {% endif %}
+        </nav>
+    </div>
+</header>
+<div id="flashes-container">
+    {% for flash in session.consumeFlashes('success') %}
+        <span class="flashes flashes-success">{{ flash }}</span>
+    {% endfor %}
+    {% for flash in session.consumeFlashes('error') %}
+        <span class="flashes flashes-error">{{ flash }}</span>
+    {% endfor %}
+</div>
+{% block page_content %}
+
+{% endblock %}
+</body>
+</html>
