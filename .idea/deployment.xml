@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" serverName="iut" remoteFilesAllowedToDisappearOnAutoupload="false">
+    <serverData>
+      <paths name="iut">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/public_html/WearToGet" local="$PROJECT_DIR$" web="https://webinfo.iutmontp.univ-montp2.fr/~rakotondramonjan/" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+  </component>
+</project>
