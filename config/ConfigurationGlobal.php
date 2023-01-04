@@ -23,7 +23,7 @@ class ConfigurationGlobal
     const appRoot = __DIR__ . '/../src';
 
     const parameters = [
-        "profile_pictures_storage" => __DIR__ . '/../web/assets/img/utilisateurs',
+        "profile_pictures_storage" => __DIR__ . '/web/assets/img',
         "secret_seed" => "qh7878qfsfsr_ttezo!"
     ];
 

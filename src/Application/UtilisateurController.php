@@ -39,11 +39,12 @@ class UtilisateurController extends Controller
         $userService = $this->container->get('utilisateur_service');
         try {
             $userService->createUtilisateur($login, $passwordClair, $adresseMail, $profilePictureFile);
-            $this->addFlash("success","Inscription réeussie!");
+            $this->addFlash("success","Inscription réussie!");
             return $this->redirectToRoute('feed');
         }
         catch (ServiceException $e) {
             $this->addFlash("error",$e->getMessage());
+            var_dump('ici');
             return $this->render("Utilisateurs/inscription.html.twig", ["login" => $login, "adresseMail" => $adresseMail]);
         }
     }
