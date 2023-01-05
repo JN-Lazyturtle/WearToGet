@@ -21,7 +21,7 @@
             {% for publication in publications %}
             <div class="feedy">
                 <div class="feedy-header">
-                    <a href="{{ route('page_perso', {"idUser" : publication.utilisateur.idUtilisateur}) }}"><img class="avatar" src="{{ asset("img/utilisateurs/" ~ publication.getUtilisateur().getProfilePictureName() ) }}" alt="avatar de l'utilisateur"></a>
+                    <a href="{{ route('page_perso', {"idUser" : publication.utilisateur.idUtilisateur}) }}"><img class="avatar" src="{{ asset("img/" ~ publication.getUtilisateur().getProfilePictureName() ) }}" alt="avatar de l'utilisateur"></a>
                     <div class="feedy-info">
                         <span>{{publication.getUtilisateur().getLogin()}}</span>
                         <span> - </span>
