@@ -16,7 +16,7 @@
             {% for publication in publications %}
                 <div class="feedy">
                     <div class="feedy-header">
-                        <img class="avatar" src="{{ asset("img/utilisateurs/" ~ publication.utilisateur.profilePictureName ) }}" alt="avatar de l'utilisateur">
+                        <img class="avatar" src="{{ asset("img/" ~ publication.utilisateur.profilePictureName ) }}" alt="avatar de l'utilisateur">
                         <div class="feedy-info">
                             <span>{{publication.getUtilisateur().getLogin()}}</span>
                             <span> - </span>

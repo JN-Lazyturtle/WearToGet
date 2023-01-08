@@ -75,7 +75,10 @@ class UtilisateurService
         }
 
         $pictureName = uniqid().'.'.$fileExtension;
-        $picUploadedFile->move($this->profilePicturesRoot, $pictureName);
+        $path = $this->profilePicturesRoot;
+        $path = str_replace('/config', '', $path);
+        $picUploadedFile->move($path, $pictureName);
+//        $picUploadedFile->move($this->profilePicturesRoot, $pictureName);
         $passwordChiffre = password_hash($this->secretSeed.$passwordClair, PASSWORD_BCRYPT);
         $utilisateur = Utilisateur::create($login, $passwordChiffre, $adresseMail, $pictureName);
         $this->repository->create($utilisateur);
