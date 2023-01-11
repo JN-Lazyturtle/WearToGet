@@ -6,6 +6,7 @@
         "symfony/dependency-injection": "^5.1",
         "twig/twig": "^3.4",
         "ext-pdo": "*",
+        "fpdf/fpdf": "1.85.0",
         "symfony/mime": "^6.2"
     },
 
