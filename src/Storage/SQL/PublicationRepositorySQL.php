@@ -20,8 +20,8 @@ class PublicationRepositorySQL implements Repository
 
     public function getAll() : array {
         $statement = $this->pdo->prepare("SELECT idPublication, message, date, idUtilisateur, login, profilePictureName 
-                                                FROM publications p 
-                                                JOIN utilisateurs u on p.idAuteur = u.idUtilisateur
+                                                FROM wtg_publications p 
+                                                JOIN wtg_utilisateurs u on p.idAuteur = u.idUtilisateur
                                                 ORDER BY date DESC");
         $statement->execute();
 
@@ -48,8 +48,8 @@ class PublicationRepositorySQL implements Repository
             "idAuteur" => $idUtilisateut,
         ];
         $statement = $this->pdo->prepare("SELECT idPublication, message, date, idUtilisateur, login, profilePictureName 
-                                                FROM publications p 
-                                                JOIN utilisateurs u on p.idAuteur = u.idUtilisateur
+                                                FROM wtg_publications p 
+                                                JOIN wtg_utilisateurs u on p.idAuteur = u.idUtilisateur
                                                 WHERE idAuteur = :idAuteur                    
                                                 ORDER BY date DESC");
         $statement->execute($values);
@@ -78,7 +78,7 @@ class PublicationRepositorySQL implements Repository
             "date" => $publication->getDate()->format('Y-m-d H:i:s'),
             "idAuteur" => $publication->getUtilisateur()->getIdUtilisateur()
         ];
-        $statement = $this->pdo->prepare("INSERT INTO publications (message, date, idAuteur) VALUES(:message, :date, :idAuteur);");
+        $statement = $this->pdo->prepare("INSERT INTO wtg_publications (message, date, idAuteur) VALUES(:message, :date, :idAuteur);");
         $statement->execute($values);
         return $this->pdo->lastInsertId();
     }
@@ -89,8 +89,8 @@ class PublicationRepositorySQL implements Repository
             "idPublication" => $id,
         ];
         $statement = $this->pdo->prepare("SELECT idPublication, message, date, idUtilisateur, login, profilePictureName  
-                                                FROM publications p
-                                                JOIN utilisateurs u on p.idAuteur = u.idUtilisateur
+                                                FROM wtg_publications p
+                                                JOIN wtg_utilisateurs u on p.idAuteur = u.idUtilisateur
                                                 WHERE idPublication = :idPublication");
         $statement->execute($values);
         $data = $statement->fetch();
@@ -114,7 +114,7 @@ class PublicationRepositorySQL implements Repository
             "idPublication" => $publication->getIdPublication(),
             "message" => $publication->getMessage(),
         ];
-        $statement = $this->pdo->prepare("UPDATE publications SET message = :message WHERE idPublication = :idPublication;");
+        $statement = $this->pdo->prepare("UPDATE wtg_publications SET message = :message WHERE idPublication = :idPublication;");
         $statement->execute($values);
     }
 
@@ -123,7 +123,7 @@ class PublicationRepositorySQL implements Repository
         $values = [
             "idPublication" => $publication->getIdPublication(),
         ];
-        $statement = $this->pdo->prepare("DELETE FROM publications WHERE idPublication = :idPublication");
+        $statement = $this->pdo->prepare("DELETE FROM wtg_publications WHERE idPublication = :idPublication");
         $statement->execute($values);
     }
 }

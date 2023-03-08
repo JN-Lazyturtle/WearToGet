@@ -13,11 +13,8 @@ use TheFeed\Business\Exception\ServiceException;
 class UtilisateurService
 {
     private $repository;
-
     private UserSessionManager $sessionManager;
-
     private $secretSeed;
-
     private $profilePicturesRoot;
 
     public function __construct($repositoryManager, $sessionManager, $secretSeed, $profilePicturesRoot)

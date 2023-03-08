@@ -18,7 +18,7 @@ class UtilisateurRepositorySQL implements Repository
 
     public function getAll()
     {
-        $statement = $this->pdo->prepare("SELECT * FROM utilisateurs");
+        $statement = $this->pdo->prepare("SELECT * FROM wtg_utilisateurs");
         $statement->execute();
 
         $utilisateurs = [];
@@ -41,7 +41,7 @@ class UtilisateurRepositorySQL implements Repository
         $values = [
             "idUtilisateur" => $id,
         ];
-        $statement = $this->pdo->prepare("SELECT * FROM utilisateurs WHERE idUtilisateur = :idUtilisateur");
+        $statement = $this->pdo->prepare("SELECT * FROM wtg_utilisateurs WHERE idUtilisateur = :idUtilisateur");
         return $this->extractUtilisateur($statement, $values);
     }
 
@@ -50,7 +50,7 @@ class UtilisateurRepositorySQL implements Repository
         $values = [
             "login" => $login,
         ];
-        $statement = $this->pdo->prepare("SELECT * FROM utilisateurs WHERE login = :login");
+        $statement = $this->pdo->prepare("SELECT * FROM wtg_utilisateurs WHERE login = :login");
         return $this->extractUtilisateur($statement, $values);
     }
 
@@ -59,7 +59,7 @@ class UtilisateurRepositorySQL implements Repository
         $values = [
             "adresseMail" => $adresseMail,
         ];
-        $statement = $this->pdo->prepare("SELECT * FROM utilisateurs WHERE adresseMail = :adresseMail");
+        $statement = $this->pdo->prepare("SELECT * FROM wtg_utilisateurs WHERE adresseMail = :adresseMail");
         return $this->extractUtilisateur($statement, $values);
     }
 
@@ -71,7 +71,7 @@ class UtilisateurRepositorySQL implements Repository
             "adresseMail" => $entity->getAdresseMail(),
             "profilePictureName" => $entity->getProfilePictureName()
         ];
-        $statement = $this->pdo->prepare("INSERT INTO utilisateurs (login, password, adresseMail, profilePictureName) VALUES(:login, :password, :adresseMail, :profilePictureName);");
+        $statement = $this->pdo->prepare("INSERT INTO wtg_utilisateurs (login, password, adresseMail, profilePictureName) VALUES(:login, :password, :adresseMail, :profilePictureName);");
         $statement->execute($values);
         return $this->pdo->lastInsertId();
     }
@@ -85,7 +85,7 @@ class UtilisateurRepositorySQL implements Repository
             "adresseMail" => $entity->getAdresseMail(),
             "profilePictureName" => $entity->getProfilePictureName()
         ];
-        $statement = $this->pdo->prepare("UPDATE utilisateurs SET login = :login, password = :password, adresseEmail = :adresseMail, profilePictureName = :profilePictureName WHERE idUtilisateur = :idUtilisateur;");
+        $statement = $this->pdo->prepare("UPDATE wtg_utilisateurs SET login = :login, password = :password, adresseEmail = :adresseMail, profilePictureName = :profilePictureName WHERE idUtilisateur = :idUtilisateur;");
         $statement->execute($values);
     }
 
@@ -94,7 +94,7 @@ class UtilisateurRepositorySQL implements Repository
         $values = [
             "idUtilisateur" => $entity->getIdUtilisateur(),
         ];
-        $statement = $this->pdo->prepare("DELETE FROM utilisateurs WHERE idUtilisateur = :idUtilisateur");
+        $statement = $this->pdo->prepare("DELETE FROM wtg_utilisateurs WHERE idUtilisateur = :idUtilisateur");
         $statement->execute($values);
     }
 
