@@ -1,0 +1,36 @@
+
+
+
+
+
+ATTENTION nécessite de passer l'argument post, représentant la publication à afficher
+Ainsi que l'argument uniqueBrands, une liste des marques présentent dans le post sans doublons (attention Nike, nike, NIKE)
+
+{% extends "base.html.twig" %}
+
+
+{% block page_content %}
+    <main id="post-main">
+        <div id="post">
+            <img src="post.getPicture().getUrl()" alt="post.getPicture.getText()">
+            <div id="right-side">
+                <h4> Tenue proposée par {{ post.getAuthor().getLogin() }}</h4>
+                <div id="items">
+                    <ol>
+                        {% for item in post.getItems() %}
+                            <li> <h5> {{ item.getType() }} {{ item.getBrand() }} accessible <a href="{{ item.getLien() }}">à cette adresse</a> </h5> </li>
+                        {% endfor %}
+                    </ol>
+                </div>
+                {% if uniqueBrands is not empty %}
+                    <h4> la tenue en marques </h4>
+                    <div id="brands">
+                        {% for brand in uniqueBrands %}
+                            <h6> {{ brand }}</h6>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </main>
+{% endblock %}
