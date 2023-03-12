@@ -44,7 +44,6 @@ class UtilisateurController extends Controller
         }
         catch (ServiceException $e) {
             $this->addFlash("error",$e->getMessage());
-            var_dump('ici');
             return $this->render("Utilisateurs/inscription.html.twig", ["login" => $login, "adresseMail" => $adresseMail]);
         }
     }
