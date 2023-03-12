@@ -2,12 +2,12 @@
 
 namespace TheFeed\Business\Services;
 
-use TheFeed\Business\Entity\Piece;
+use TheFeed\Business\Entity\Item;
 use TheFeed\Business\Exception\ServiceException;
 use TheFeed\Storage\SQL\PieceRepositorySQL;
 use TheFeed\Storage\SQL\PublicationRepositorySQL;
 
-class PieceService
+class ItemService
 {
     private PieceRepositorySQL $pieceRepositorySQL;
 
@@ -28,9 +28,9 @@ class PieceService
         return $this->pieceRepositorySQL->getAll();
     }
 
-    public function getPiece($idPiece, $allowNull)
+    public function getPiece($idItem, $allowNull)
     {
-        $piece = $this->pieceRepositorySQL->get($idPiece);
+        $piece = $this->pieceRepositorySQL->get($idItem);
         if(!$allowNull && $piece == null) {
             throw new ServiceException("Lien inexistant!");
         }
@@ -52,7 +52,7 @@ class PieceService
         }
 
         $publication = $this->publicationRepositorySQL->get($idPublication);
-        $id = Piece::create($lien, $type, $publication, $marque);
+        $id = Item::create($lien, $type, $publication, $marque);
         return $this->pieceRepositorySQL->get($id);
 
     }

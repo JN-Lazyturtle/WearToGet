@@ -2,22 +2,22 @@
 
 namespace TheFeed\Business\Entity;
 
-class Piece implements \JsonSerializable
+class Item implements \JsonSerializable
 {
     /**
      * @var int
      */
-    private $idPiece;
+    private $idItem;
 
     /**
      * @var string
      */
-    private $lien;
+    private $link;
 
     /**
      * @var string
      */
-    private $type;
+    private $category;
 
     /**
      * @var Publication
@@ -27,15 +27,15 @@ class Piece implements \JsonSerializable
     /**
      * @var string
      */
-    private $marque;
+    private $brand;
 
     public static function create($lien, $type, $publication, $marque)
     {
-        $piece = new Piece();
+        $piece = new Item();
         $piece->publication = $publication->getId();
-        $piece->lien = $lien;
-        $piece->type = $type;
-        $piece->marque = $marque;
+        $piece->link = $lien;
+        $piece->category = $type;
+        $piece->brand = $marque;
         return $piece;
     }
 
@@ -46,49 +46,49 @@ class Piece implements \JsonSerializable
     /**
      * @return int
      */
-    public function getIdPiece(): int
+    public function getIdItem(): int
     {
-        return $this->idPiece;
+        return $this->idItem;
     }
 
     /**
-     * @param int $idPiece
+     * @param int $idItem
      */
-    public function setIdPiece(int $idPiece): void
+    public function setIdItem(int $idItem): void
     {
-        $this->idPiece = $idPiece;
-    }
-
-    /**
-     * @return string
-     */
-    public function getLien(): string
-    {
-        return $this->lien;
-    }
-
-    /**
-     * @param string $lien
-     */
-    public function setLien(string $lien): void
-    {
-        $this->lien = $lien;
+        $this->idItem = $idItem;
     }
 
     /**
      * @return string
      */
-    public function getType(): string
+    public function getLink(): string
     {
-        return $this->type;
+        return $this->link;
     }
 
     /**
-     * @param string $type
+     * @param string $link
      */
-    public function setType(string $type): void
+    public function setLink(string $link): void
     {
-        $this->type = $type;
+        $this->link = $link;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCategory(): string
+    {
+        return $this->category;
+    }
+
+    /**
+     * @param string $category
+     */
+    public function setCategory(string $category): void
+    {
+        $this->category = $category;
     }
 
     /**
@@ -110,27 +110,27 @@ class Piece implements \JsonSerializable
     /**
      * @return string
      */
-    public function getMarque(): string
+    public function getBrand(): string
     {
-        return $this->marque;
+        return $this->brand;
     }
 
     /**
-     * @param string $marque
+     * @param string $brand
      */
-    public function setMarque(string $marque): void
+    public function setBrand(string $brand): void
     {
-        $this->marque = $marque;
+        $this->brand = $brand;
     }
 
 
     public function jsonSerialize(): array
     {
         return [
-            'idPiece' => $this->idPiece,
-            'lien' => $this->lien,
-            'type' => $this->type,
-            'marque' => $this->marque,
+            'idPiece' => $this->idItem,
+            'lien' => $this->link,
+            'type' => $this->category,
+            'marque' => $this->brand,
             'publication' => [
                 "idPublication" => $this->publication->getIdPublication(),
                 "message" => $this->publication->getMessage(),

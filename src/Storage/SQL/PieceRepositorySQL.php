@@ -4,7 +4,7 @@ namespace TheFeed\Storage\SQL;
 
 use Framework\Storage\Repository;
 use PDO;
-use TheFeed\Business\Entity\Piece;
+use TheFeed\Business\Entity\Item;
 
 class PieceRepositorySQL implements Repository
 {
@@ -24,10 +24,10 @@ class PieceRepositorySQL implements Repository
         $pieces = [];
 
         foreach ($statement as $data) {
-            $piece = new Piece();
-            $piece->setType($data['type']);
-            $piece->setLien($data['lien']);
-            $piece->setMarque($data['marque']);
+            $piece = new Item();
+            $piece->setCategory($data['type']);
+            $piece->setLink($data['lien']);
+            $piece->setBrand($data['marque']);
             $piece->setPublication($data['publication']);
             $pieces[] = $piece;
         }
@@ -51,10 +51,10 @@ class PieceRepositorySQL implements Repository
         $pieces = [];
 
         foreach ($statement as $data) {
-            $piece = new Piece();
-            $piece->setType($data['type']);
-            $piece->setLien($data['lien']);
-            $piece->setMarque($data['marque']);
+            $piece = new Item();
+            $piece->setCategory($data['type']);
+            $piece->setLink($data['lien']);
+            $piece->setBrand($data['marque']);
             $piece->setPublication($data['publication']);
             $pieces[] = $piece;
         }
@@ -76,10 +76,10 @@ class PieceRepositorySQL implements Repository
         $data = $statement->fetch();
 
         if($data){
-            $piece = new Piece();
-            $piece->setType($data['type']);
-            $piece->setLien($data['lien']);
-            $piece->setMarque($data['marque']);
+            $piece = new Item();
+            $piece->setCategory($data['type']);
+            $piece->setLink($data['lien']);
+            $piece->setBrand($data['marque']);
             $piece->setPublication($data['publication']);
             return $piece;
         }

@@ -8,10 +8,10 @@ use TheFeed\Application\API\PublicationControllerAPI;
 use TheFeed\Application\API\UtilisateurControllerAPI;
 use TheFeed\Application\PublicationController;
 use TheFeed\Application\UtilisateurController;
-use TheFeed\Business\Entity\Piece;
+use TheFeed\Business\Entity\Item;
 use TheFeed\Business\Entity\Publication;
 use TheFeed\Business\Entity\Utilisateur;
-use TheFeed\Business\Services\PieceService;
+use TheFeed\Business\Services\ItemService;
 use TheFeed\Business\Services\PublicationService;
 use TheFeed\Business\Services\UtilisateurService;
 use TheFeed\Listener\AppListener;
@@ -35,7 +35,7 @@ class ConfigurationGlobal
     const repositories = [
         Publication::class => PublicationRepositorySQL::class,
         Utilisateur::class => UtilisateurRepositorySQL::class,
-        Piece::class => PieceRepositorySQL::class
+        Item::class => PieceRepositorySQL::class
     ];
 
     const userSessionManager = [
@@ -164,7 +164,7 @@ class ConfigurationGlobal
                 "%profile_pictures_storage%"
             ])
         ;
-        $container->register('piece_service', PieceService::class)
+        $container->register('piece_service', ItemService::class)
             ->setArguments([
                 new Reference('repository_manager'),
                 new Reference('piece_service')

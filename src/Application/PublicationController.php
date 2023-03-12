@@ -12,6 +12,7 @@ class PublicationController extends Controller
     public function feed() {
         $service = $this->container->get('publication_service');
         $publications = $service->getAllPublications();
+
         return $this->render('Publications/home.html.twig', ["publications" => $publications]);
     }
 
