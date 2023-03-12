@@ -21,7 +21,8 @@ class Utilisateur
 
     }
 
-    public static function create($login, $passwordChiffre, $addresseMail, $profilePictureName) : Utilisateur {
+    public static function create($login, $passwordChiffre, $addresseMail, $profilePictureName) : Utilisateur
+    {
         $utilisateur = new Utilisateur();
         $utilisateur->setLogin($login);
         $utilisateur->setPassword($passwordChiffre);

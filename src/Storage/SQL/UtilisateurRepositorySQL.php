@@ -65,13 +65,14 @@ class UtilisateurRepositorySQL implements Repository
 
     public function create($entity)
     {
+        var_dump($entity);
         $values = [
             "login" => $entity->getLogin(),
             "password" => $entity->getPassword(),
             "adresseMail" => $entity->getAdresseMail(),
             "profilePictureName" => $entity->getProfilePictureName()
         ];
-        $statement = $this->pdo->prepare("INSERT INTO utilisateurs (login, password, adresseMail, profilePictureName) VALUES(:login, :password, :adresseMail, :profilePictureName);");
+        $statement = $this->pdo->prepare("INSERT INTO utilisateurs (login, password, adresseMail, profilePictureName) VALUES(:login, :password, :adresseMail, :profilePictureName)");
         $statement->execute($values);
         return $this->pdo->lastInsertId();
     }
