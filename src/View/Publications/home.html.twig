@@ -1,0 +1,47 @@
+{% extends "base.html.twig" %}
+
+{% block page_title %}The Feed{% endblock %}
+
+{% block page_content %}
+    <section class="mt-5">
+        <div class="container">
+            {% if session.get('id') %}
+                <form id="feedy-new">
+                    <fieldset>
+                        <legend>Nouvelle publication</legend>
+                        <div>
+                            <textarea required id="message" minlength="1" maxlength="250" name="message"
+                                      placeholder="Les liens des looks?"></textarea>
+                        </div>
+                        <div>
+                            <button type="button" id="feedy-new-submit" onclick="submitFeedy()">Publier!</button>
+                        </div>
+                    </fieldset>
+                </form>
+            {% endif %}
+            {% for publication in publications %}
+                <div class="row row-cols-1 row-cols-md-3 g-4">
+                    <div class="col">
+                        <div class="card h-100 rounded-3 shadow">
+                            <img src="https://resize.elle.fr/portrait/var/plain_site/storage/images/mode/dossiers-mode/look-glamour-2945290/54225782-1-fre-FR/C-est-quoi-un-look-glamour.jpg"
+                                 class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">LOOK DU JOUR</h5>
+                                <p class="card-text">Description</p>
+                                <a class="text-info">En savoir plus</a>
+                            </div>
+                            <div class="card-footer">
+                                <small class="text-muted">Publié par {{ publication.utilisateur.login }}</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            {% if not publications %}
+                <p id="no-publications" class="center">Pas de publications pour le moment!</p>
+            {% endif %}
+        </div>
+    </section>
+
+
+{% endblock %}

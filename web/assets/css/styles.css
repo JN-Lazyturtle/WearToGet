@@ -1,25 +1,13 @@
 /* Mise en page générale */
 
-body {
-    background-color: #e6ecf0;
-    margin:0;
-}
+/*body {*/
+/*    background-color: #e6ecf0;*/
+/*    margin:0;*/
+/*}*/
 
-main {
-    font-family: Arial, serif;
-}
-
-header {
-    background-color: #494949;
-    position: relative;
-    height: 100px;
-}
-
-#titre {
-    font-size: 50px;
-    font-family: helvetica, serif;
-    color: white;
-}
+/*main {*/
+/*    font-family: Arial, serif;*/
+/*}*/
 
 #titre a:link, #titre a:visited {
     text-decoration: none;
@@ -232,3 +220,4 @@ nav a {
     font-size: 20px;
     margin : 20px 0;
 }
+

@@ -25,20 +25,17 @@ class PublicationService
     public function getPublication($idPublication, $allowNull = true) {
         $publication = $this->repository->get($idPublication);
         if(!$allowNull && $publication == null) {
-            throw new ServiceException("Publication inexistante!");
+            throw new ServiceException("Publication inexistante");
         }
         return $publication;
     }
 
-    public function createNewPublication($idUtilisateur, $message) {
-            if($message == null || $message == "") {
-                throw new ServiceException("Le message ne peut pas être vide!");
-            }
-            if(strlen($message) > 250) {
-                throw new ServiceException("Le message ne peut pas dépasser 250 caractères!");
-            }
+    /**
+     * @param Item[] $items
+     */
+    public function createNewPublication($idUtilisateur,string $photoPath, string $photoDescription, array $items) {
             $utilisateur = $this->serviceUtilisateur->getUtilisateur($idUtilisateur, false);
-            $publication = Publication::create($message, $utilisateur);
+            $publication = Publication::create($photoPath, $photoDescription, $items, $utilisateur);
             $id = $this->repository->create($publication);
             return $this->repository->get($id);
     }
@@ -51,9 +48,6 @@ class PublicationService
         return $this->repository->getAllFrom($utilisateur->getIdUtilisateur());
     }
 
-    /**
-     * @throws ServiceException
-     */
     public function removePublication($idUtilisateur, $idPublication) {
         $utilisateur = $this->serviceUtilisateur->getUtilisateur($idUtilisateur, false);
         $publication = $this->getPublication($idPublication, false);
