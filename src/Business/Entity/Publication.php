@@ -13,11 +13,6 @@ class Publication implements JsonSerializable
     private $idPublication;
 
     /**
-     * @var string
-     */
-    private $message;
-
-    /**
      * @var DateTime
      */
     private $date;
@@ -25,18 +20,28 @@ class Publication implements JsonSerializable
     /**
      * @var Utilisateur
      */
-    private $utilisateur;
+    private Utilisateur $utilisateur;
+
+    private string $photoPath;
+
+    private string $photoDescription;
 
     /**
-     * @param string $message
-     * @param int $idAuteur
-     * @return Publication
+     * @var Item[]
      */
-    public static function create($message, $utilisateur) {
+    private array $items;
+
+
+    /**
+     * @param Item[] $items
+     */
+    public static function create(string $photo, string $photoDescription, array $items, Utilisateur $utilisateur) {
         $publication = new Publication();
-        $publication->message = $message;
         $publication->date = new DateTime();
         $publication->utilisateur = $utilisateur;
+        $publication->photoPath = $photo;
+        $publication->photoDescription = $photoDescription;
+        $publication->items = $items;
         return $publication;
     }
 
@@ -58,23 +63,6 @@ class Publication implements JsonSerializable
     public function setIdPublication(int $idPublication): void
     {
         $this->idPublication = $idPublication;
-    }
-
-
-    /**
-     * @return string
-     */
-    public function getMessage()
-    {
-        return $this->message;
-    }
-
-    /**
-     * @param string $message
-     */
-    public function setMessage($message)
-    {
-        $this->message = $message;
     }
 
     /**
@@ -108,6 +96,57 @@ class Publication implements JsonSerializable
     {
         $this->utilisateur = $utilisateur;
     }
+
+    /**
+     * @return string
+     */
+    public function getPhotoPath(): string
+    {
+        return $this->photoPath;
+    }
+
+    /**
+     * @param string $photoPath
+     */
+    public function setPhotoPath(string $photoPath): void
+    {
+        $this->photoPath = $photoPath;
+    }
+
+    /**
+     * @return Item[]
+     */
+    public function getItems(): array
+    {
+        return $this->items;
+    }
+
+    /**
+     * @param Item[] $items
+     */
+    public function setItems(array $items): void
+    {
+        $this->items = $items;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPhotoDescription(): string
+    {
+        return $this->photoDescription;
+    }
+
+    /**
+     * @param string $photoDescription
+     */
+    public function setPhotoDescription(string $photoDescription): void
+    {
+        $this->photoDescription = $photoDescription;
+    }
+
+
+
 
     public function jsonSerialize() : array
     {

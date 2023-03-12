@@ -19,7 +19,7 @@ class PublicationRepositorySQL implements Repository
     }
 
     public function getAll() : array {
-        $statement = $this->pdo->prepare("SELECT idPublication, message, date, idUtilisateur, login, profilePictureName 
+        $statement = $this->pdo->prepare("SELECT idPublication, date, photo, descriptionPhoto, idUtilisateur, login, profilePictureName
                                                 FROM publications p 
                                                 JOIN utilisateurs u on p.idAuteur = u.idUtilisateur
                                                 ORDER BY date DESC");
@@ -28,26 +28,44 @@ class PublicationRepositorySQL implements Repository
         $publis = [];
 
         foreach ($statement as $data) {
-            $publi = new Publication();
-            $publi->setIdPublication($data["idPublication"]);
-            $publi->setMessage($data["message"]);
-            $publi->setDate(new DateTime($data["date"]));
-            $utilisateur = new Utilisateur();
-            $utilisateur->setIdUtilisateur($data["idUtilisateur"]);
-            $utilisateur->setLogin($data["login"]);
-            $utilisateur->setProfilePictureName($data["profilePictureName"]);
-            $publi->setUtilisateur($utilisateur);
+            $publi = $this->getPublicationFromData($data);
             $publis[] = $publi;
         }
 
         return $publis;
     }
 
-    public function getAllFrom($idUtilisateut) : array {
+    /**
+     * @return Item[]
+     */
+    private function getItems($idPublication) : array{
         $values = [
-            "idAuteur" => $idUtilisateut,
+            "idpub" => $idPublication,
         ];
-        $statement = $this->pdo->prepare("SELECT idPublication, message, date, idUtilisateur, login, profilePictureName 
+        $statement = $this->pdo->prepare("SELECT idPiece, type, marque, lien
+                                                FROM piece p 
+                                                WHERE p.idPublication = :idpub");
+        $statement->execute($values);
+
+        $items = [];
+
+        foreach ($statement as $data) {
+            $item = new Item();
+            $item->setIdItem($data["idPiece"]);
+            $item->setType($data["type"]);
+            $item->setBrande($data["marque"]);
+            $item->setLink($data["lien"]);
+            $items[] = $item;
+        }
+
+        return $items;
+    }
+
+    public function getAllFrom($idUtilisateur) : array {
+        $values = [
+            "idAuteur" => $idUtilisateur,
+        ];
+        $statement = $this->pdo->prepare("SELECT idPublication, date, photo, idUtilisateur, login, profilePictureName
                                                 FROM publications p 
                                                 JOIN utilisateurs u on p.idAuteur = u.idUtilisateur
                                                 WHERE idAuteur = :idAuteur                    
@@ -57,30 +75,36 @@ class PublicationRepositorySQL implements Repository
         $publis = [];
 
         foreach ($statement as $data) {
-            $publi = new Publication();
-            $publi->setIdPublication($data["idPublication"]);
-            $publi->setMessage($data["message"]);
-            $publi->setDate(new DateTime($data["date"]));
-            $utilisateur = new Utilisateur();
-            $utilisateur->setIdUtilisateur($data["idUtilisateur"]);
-            $utilisateur->setLogin($data["login"]);
-            $utilisateur->setProfilePictureName($data["profilePictureName"]);
-            $publi->setUtilisateur($utilisateur);
+            $publi = $this->getPublicationFromData($data);
             $publis[] = $publi;
         }
 
         return $publis;
     }
 
+    /**
+     * @param Publication $publication
+     */
     public function create($publication) {
         $values = [
-            "message" => $publication->getMessage(),
+            "photo" => $publication->getPhotoPath(),
             "date" => $publication->getDate()->format('Y-m-d H:i:s'),
             "idAuteur" => $publication->getUtilisateur()->getIdUtilisateur()
         ];
-        $statement = $this->pdo->prepare("INSERT INTO publications (message, date, idAuteur) VALUES(:message, :date, :idAuteur);");
+        $statement = $this->pdo->prepare("INSERT INTO publications (photo, date, idAuteur) VALUES(:photo, :date, :idAuteur);");
         $statement->execute($values);
-        return $this->pdo->lastInsertId();
+        $publiID = $this->pdo->lastInsertId();
+        foreach ($publication->getItems() as $item){
+            $values = [
+                "link" => $item->getLink(),
+                "type" => $item->getType(),
+                "brand" => $item->getBrand(),
+                "idPublication" => $publiID
+            ];
+            $statement = $this->pdo->prepare("INSERT INTO piece (lien, type, marque, idPublication) VALUES(:link, :type, :brand, :idPublication);");
+            $statement->execute($values);
+        }
+        return $publiID;
     }
 
     public function get($id)
@@ -88,42 +112,64 @@ class PublicationRepositorySQL implements Repository
         $values = [
             "idPublication" => $id,
         ];
-        $statement = $this->pdo->prepare("SELECT idPublication, message, date, idUtilisateur, login, profilePictureName  
-                                                FROM publications p
+        $statement = $this->pdo->prepare("SELECT idPublication, date, photo, idUtilisateur, login, profilePictureName
+                                                FROM publications p 
                                                 JOIN utilisateurs u on p.idAuteur = u.idUtilisateur
                                                 WHERE idPublication = :idPublication");
         $statement->execute($values);
         $data = $statement->fetch();
         if($data) {
-            $publication = new Publication();
-            $publication->setIdPublication($data["idPublication"]);
-            $publication->setMessage($data["message"]);
-            $publication->setDate(new DateTime($data["date"]));
-            $utilisateur = new Utilisateur();
-            $utilisateur->setIdUtilisateur($data["idUtilisateur"]);
-            $utilisateur->setLogin($data["login"]);
-            $utilisateur->setProfilePictureName($data["profilePictureName"]);
-            $publication->setUtilisateur($utilisateur);
-            return $publication;
+            return $this->getPublicationFromData($data);
         }
     }
 
+    /**
+     * @param Publication $publication
+     */
     public function update($publication)
     {
         $values = [
             "idPublication" => $publication->getIdPublication(),
-            "message" => $publication->getMessage(),
+            "photo" => $publication->getPhotoPath(),
         ];
-        $statement = $this->pdo->prepare("UPDATE publications SET message = :message WHERE idPublication = :idPublication;");
+        $statement = $this->pdo->prepare("UPDATE publications SET photo = :photo WHERE idPublication = :idPublication;");
         $statement->execute($values);
     }
 
+    /**
+     * @param Publication $publication
+     */
     public function remove($publication)
     {
+        foreach ($publication->getItems() as $item){
+            $values = [
+                "idItem" => $item->getIdItem(),
+            ];
+            $statement = $this->pdo->prepare("DELETE FROM piece WHERE idPiece = :idItem");
+            $statement->execute($values);
+        }
+
         $values = [
             "idPublication" => $publication->getIdPublication(),
         ];
         $statement = $this->pdo->prepare("DELETE FROM publications WHERE idPublication = :idPublication");
         $statement->execute($values);
+    }
+
+
+    public function getPublicationFromData($data): Publication
+    {
+        $publi = new Publication();
+        $publi->setIdPublication($data["idPublication"]);
+        $publi->setPhotoPath($data["photo"]);
+        $publi->setPhotoDescription($data["descriptionPhoto"]);
+        $publi->setDate(new DateTime($data["date"]));
+        $utilisateur = new Utilisateur();
+        $utilisateur->setIdUtilisateur($data["idUtilisateur"]);
+        $utilisateur->setLogin($data["login"]);
+        $utilisateur->setProfilePictureName($data["profilePictureName"]);
+        $publi->setUtilisateur($utilisateur);
+        $publi->setItems($this->getItems($data["idPublication"]));
+        return $publi;
     }
 }

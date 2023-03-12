@@ -15,6 +15,23 @@ class PublicationController extends Controller
         return $this->render('Publications/feed.html.twig', ["publications" => $publications]);
     }
 
+    public function detail($idPublication) {
+        $service = $this->container->get('publication_service');
+        $publication = $service->getPublication($idPublication);
+        if ($publication != null) {
+            $uniqueBrands = array();
+            $uniqueBrandsNormalized = array();
+            foreach ($publication->getItems() as $item){
+                if ( ! in_array(strtolower($item->getBrand()), $uniqueBrandsNormalized)) {
+                    $uniqueBrands[] = $item->getBrand();
+                    $uniqueBrandsNormalized[] = strtolower($item->getBrand());
+                }
+            }
+            return $this->render('Publications/detail.html.twig', ["post" => $publication, "uniqueBrands" => $uniqueBrands]);
+        }
+        return $this->feed();
+    }
+
     public function submitFeedy(Request $request) {
         $userService = $this->container->get('utilisateur_service');
             $userId = $userService->getUserId();
