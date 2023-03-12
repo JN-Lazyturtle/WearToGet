@@ -108,9 +108,11 @@ class Publication implements JsonSerializable
     /**
      * @param string $photoPath
      */
-    public function setPhotoPath(string $photoPath): void
+    public function setPhotoPath(string $photoPath): self
     {
         $this->photoPath = $photoPath;
+
+        return $this;
     }
 
     /**
@@ -124,9 +126,11 @@ class Publication implements JsonSerializable
     /**
      * @param Item[] $items
      */
-    public function setItems(array $items): void
+    public function setItems(array $items): self
     {
         $this->items = $items;
+
+        return $this;
     }
 
     /**
@@ -140,13 +144,12 @@ class Publication implements JsonSerializable
     /**
      * @param string $photoDescription
      */
-    public function setPhotoDescription(string $photoDescription): void
+    public function setPhotoDescription(string $photoDescription): self
     {
         $this->photoDescription = $photoDescription;
+
+        return $this;
     }
-
-
-
 
     public function jsonSerialize() : array
     {

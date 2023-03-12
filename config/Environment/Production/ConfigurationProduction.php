@@ -16,9 +16,9 @@ class ConfigurationProduction extends ConfigurationGlobal
         "manager" => RepositoryManagerMySQL::class,
         "dataSourceParameters" => [
             'hostname' => 'webinfo.iutmontp.univ-montp2.fr',
-            'database' => 'nussbaumerj',
-            'login' => 'nussbaumerj',
-            'password' => 'apidaetdphp'
+            'database' => 'rakotondramonjan',
+            'login' => 'rakotondramonjan',
+            'password' => 'BDDnyony23'
         ]
     ];
 }

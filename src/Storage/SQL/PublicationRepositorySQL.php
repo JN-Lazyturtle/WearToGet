@@ -5,6 +5,7 @@ namespace TheFeed\Storage\SQL;
 use DateTime;
 use Framework\Storage\Repository;
 use PDO;
+use TheFeed\Business\Entity\Item;
 use TheFeed\Business\Entity\Publication;
 use TheFeed\Business\Entity\Utilisateur;
 
@@ -19,7 +20,7 @@ class PublicationRepositorySQL implements Repository
     }
 
     public function getAll() : array {
-        $statement = $this->pdo->prepare("SELECT idPublication, date, photo, descriptionPhoto, idUtilisateur, login, profilePictureName
+        $statement = $this->pdo->prepare("SELECT idPublication, date, pathPhoto, descriptionPhoto, idUtilisateur, login, profilePictureName
                                                 FROM publications p 
                                                 JOIN utilisateurs u on p.idAuteur = u.idUtilisateur
                                                 ORDER BY date DESC");
@@ -31,7 +32,6 @@ class PublicationRepositorySQL implements Repository
             $publi = $this->getPublicationFromData($data);
             $publis[] = $publi;
         }
-
         return $publis;
     }
 
@@ -52,8 +52,8 @@ class PublicationRepositorySQL implements Repository
         foreach ($statement as $data) {
             $item = new Item();
             $item->setIdItem($data["idPiece"]);
-            $item->setType($data["type"]);
-            $item->setBrande($data["marque"]);
+            $item->setCategory($data["type"]);
+            $item->setBrand($data["marque"]);
             $item->setLink($data["lien"]);
             $items[] = $item;
         }
@@ -97,7 +97,7 @@ class PublicationRepositorySQL implements Repository
         foreach ($publication->getItems() as $item){
             $values = [
                 "link" => $item->getLink(),
-                "type" => $item->getType(),
+                "type" => $item->getCategory(),
                 "brand" => $item->getBrand(),
                 "idPublication" => $publiID
             ];
@@ -161,7 +161,7 @@ class PublicationRepositorySQL implements Repository
     {
         $publi = new Publication();
         $publi->setIdPublication($data["idPublication"]);
-        $publi->setPhotoPath($data["photo"]);
+        $publi->setPhotoPath($data["pathPhoto"]);
         $publi->setPhotoDescription($data["descriptionPhoto"]);
         $publi->setDate(new DateTime($data["date"]));
         $utilisateur = new Utilisateur();

@@ -8,11 +8,14 @@ use TheFeed\Application\API\PublicationControllerAPI;
 use TheFeed\Application\API\UtilisateurControllerAPI;
 use TheFeed\Application\PublicationController;
 use TheFeed\Application\UtilisateurController;
+use TheFeed\Business\Entity\Item;
 use TheFeed\Business\Entity\Publication;
 use TheFeed\Business\Entity\Utilisateur;
+use TheFeed\Business\Services\ItemService;
 use TheFeed\Business\Services\PublicationService;
 use TheFeed\Business\Services\UtilisateurService;
 use TheFeed\Listener\AppListener;
+use TheFeed\Storage\SQL\PieceRepositorySQL;
 use TheFeed\Storage\SQL\PublicationRepositorySQL;
 use TheFeed\Storage\SQL\UtilisateurRepositorySQL;
 
@@ -23,7 +26,7 @@ class ConfigurationGlobal
     const appRoot = __DIR__ . '/../src';
 
     const parameters = [
-        "profile_pictures_storage" => __DIR__ . '/../web/assets/img/utilisateurs',
+        "profile_pictures_storage" => __DIR__ . '/web/assets/img',
         "secret_seed" => "qh7878qfsfsr_ttezo!"
     ];
 
@@ -32,6 +35,7 @@ class ConfigurationGlobal
     const repositories = [
         Publication::class => PublicationRepositorySQL::class,
         Utilisateur::class => UtilisateurRepositorySQL::class,
+        Item::class => PieceRepositorySQL::class
     ];
 
     const userSessionManager = [
@@ -158,6 +162,12 @@ class ConfigurationGlobal
                 new Reference('session_manager'),
                 "%secret_seed%",
                 "%profile_pictures_storage%"
+            ])
+        ;
+        $container->register('piece_service', ItemService::class)
+            ->setArguments([
+                new Reference('repository_manager'),
+                new Reference('piece_service')
             ])
         ;
         $container->register('app_listener', AppListener::class)
