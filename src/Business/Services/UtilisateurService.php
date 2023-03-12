@@ -6,6 +6,7 @@ use Framework\Services\ServerSessionManager;
 use Framework\Services\UserSessionManager;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Session\Session;
 use TheFeed\Business\Entity\Utilisateur;
 use TheFeed\Business\Exception\ServiceException;
@@ -73,9 +74,10 @@ class UtilisateurService
         if(!in_array($fileExtension, ['png', 'jpg', 'jpeg'])) {
             throw new ServiceException("La photo de profil n'est pas au bon format!");
         }
-
         $pictureName = uniqid().'.'.$fileExtension;
-        $picUploadedFile->move($this->profilePicturesRoot, $pictureName);
+        $path = $this->profilePicturesRoot;
+        $path = str_replace('/config', '', $path);
+        $picUploadedFile->move($path, $pictureName);
         $passwordChiffre = password_hash($this->secretSeed.$passwordClair, PASSWORD_BCRYPT);
         $utilisateur = Utilisateur::create($login, $passwordChiffre, $adresseMail, $pictureName);
         $this->repository->create($utilisateur);
