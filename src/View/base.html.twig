@@ -33,7 +33,7 @@
                         <li class="nav-item my-rainbow-hover">
                             <a class="nav-link active fs-5" href="{{ route("feed") }}">Accueil</a>
                         </li>
-                        {% if session.get('id') %}#}
+                        {% if session.get('id') %}
                             <li class="nav-item my-rainbow-hoverr">
                                 <a class="nav-link fs-5"
                                    href="{{ route("page_perso", {"idUser" : session.get('id')}) }}">Ma

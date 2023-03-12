@@ -8,16 +8,13 @@
 }
 
 .my-rainbow-hover a:hover {
-    background: -webkit-linear-gradient(left, #f22 , #f2b133, #e8f133, #33e8b7, #33b7e8, #8b33e8, #e833b7); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(right, #f22, #f2b133, #e8f133, #33e8b7, #33b7e8, #8b33e8, #e833b7); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(right, #f22 , #f2b133, #e8f133, #33e8b7, #33b7e8, #8b33e8, #e833b7); /* For Firefox 3.6 to 15 */
-    background: linear-gradient(to right, #f22 , #f2b133, #e8f133, #33e8b7, #33b7e8, #8b33e8, #e833b7); /* Standard syntax (must be last) */
+    background: -webkit-linear-gradient(left, #f22 , #39f233, #cb7575, #3366e8, #33b7e8, #8b33e8, #e833b7); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(right, #f22, #39f233, #cb7575, #336ce8, #33b7e8, #8b33e8, #e833b7); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(right, #f22 , #39f233, #cb7575, #3397e8, #33b7e8, #8b33e8, #e833b7); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to right, #f22 , #39f233, #cb7575, #337be8, #33b7e8, #8b33e8, #e833b7); /* Standard syntax (must be last) */
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
-body {
-    background-image: url("https://img.freepik.com/vecteurs-libre/fond-ciel-pastel-aquarelle-peint-main_23-2148902771.jpg?w=1800&t=st=1678624205~exp=1678624805~hmac=c2ae0ff6a3df335db3d3c7fdf442f6794b67a5410a1b9915acadd6f1bcc0c606");
-}
 
 
