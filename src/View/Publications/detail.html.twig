@@ -1,36 +1,24 @@
-
-
-
-
-
-ATTENTION nécessite de passer l'argument post, représentant la publication à afficher
-Ainsi que l'argument uniqueBrands, une liste des marques présentent dans le post sans doublons (attention Nike, nike, NIKE)
-
 {% extends "base.html.twig" %}
 
 
 {% block page_content %}
-    <main id="post-main">
-        <div id="post">
-            <img src="post.getPicture().getUrl()" alt="post.getPicture.getText()">
-            <div id="right-side">
-                <h4> Tenue proposée par {{ post.getAuthor().getLogin() }}</h4>
-                <div id="items">
-                    <ol>
-                        {% for item in post.getItems() %}
-                            <li> <h5> {{ item.getType() }} {{ item.getBrand() }} accessible <a href="{{ item.getLien() }}">à cette adresse</a> </h5> </li>
-                        {% endfor %}
-                    </ol>
+    <div class="card mb-3" style="max-width: 80%; margin-top: 2%">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img src="{{ post.getPhotoPath() }}" class="img-fluid rounded-start" alt="{{ post.getPhotoDescription() }}">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">Tenue proposée par {{ post.getUtilisateur().getLogin() }}</h5>
+                    <p class="card-text">{{ post.getDescription() }}</p>
+                    <ul class="list-group list-group-flush">
+                    {% for item in post.getItems %}
+                        <li class="list-group-item" class="card-text">{{ item.getCategory() }} {{ item.getBrand }} <a href="{{ item.getLink() }}"> disponible ici </a> </li>
+                    {% endfor %}
+                    </ul>
+                    <p class="card-text"><small class="text-muted">posté le {{ post.getDateFormated() }}</small></p>
                 </div>
-                {% if uniqueBrands is not empty %}
-                    <h4> la tenue en marques </h4>
-                    <div id="brands">
-                        {% for brand in uniqueBrands %}
-                            <h6> {{ brand }}</h6>
-                        {% endfor %}
-                    </div>
-                {% endif %}
             </div>
         </div>
-    </main>
+    </div>
 {% endblock %}

@@ -33,9 +33,9 @@ class PublicationService
     /**
      * @param Item[] $items
      */
-    public function createNewPublication($idUtilisateur,string $photoPath, string $photoDescription, array $items) {
+    public function createNewPublication(string $description, $idUtilisateur, string $photoPath, string $photoDescription, array $items) {
             $utilisateur = $this->serviceUtilisateur->getUtilisateur($idUtilisateur, false);
-            $publication = Publication::create($photoPath, $photoDescription, $items, $utilisateur);
+            $publication = Publication::create($description, $photoPath, $photoDescription, $items, $utilisateur);
             $id = $this->repository->create($publication);
             return $this->repository->get($id);
     }

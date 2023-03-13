@@ -17,6 +17,8 @@ class Publication implements JsonSerializable
      */
     private $date;
 
+    private string $description;
+
     /**
      * @var Utilisateur
      */
@@ -35,10 +37,11 @@ class Publication implements JsonSerializable
     /**
      * @param Item[] $items
      */
-    public static function create(string $photo, string $photoDescription, array $items, Utilisateur $utilisateur) {
+    public static function create(string $description, string $photo, string $photoDescription, array $items, Utilisateur $utilisateur) {
         $publication = new Publication();
         $publication->date = new DateTime();
         $publication->utilisateur = $utilisateur;
+        $publication->description = $description;
         $publication->photoPath = $photo;
         $publication->photoDescription = $photoDescription;
         $publication->items = $items;
@@ -71,6 +74,11 @@ class Publication implements JsonSerializable
     public function getDate()
     {
         return $this->date;
+    }
+
+    public function getDateFormated() : string
+    {
+        return $this->date->format("m-d-Y");
     }
 
     /**
@@ -150,6 +158,25 @@ class Publication implements JsonSerializable
 
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string $description
+     */
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
+        return $this;
+    }
+
+
 
     public function jsonSerialize() : array
     {
