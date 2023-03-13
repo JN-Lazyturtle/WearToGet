@@ -68,6 +68,14 @@ class ConfigurationGlobal
                 "_logged" => true,
             ]
         ],
+        "detail_publication" => [
+            "path" => "/publication/detail/{idPublication}",
+            "methods" => ["GET"],
+            "parameters" => [
+                "_controller" => "publication_controller::detail",
+                "idPublication" => null,
+            ]
+        ],
         "connexion" => [
             "path" => "/connexion",
             "methods" => ["GET"],
