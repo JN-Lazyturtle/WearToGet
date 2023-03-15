@@ -5,20 +5,6 @@
 {% block page_content %}
     <section class="mt-5">
         <div class="container">
-            {% if session.get('id') %}
-                <form id="feedy-new">
-                    <fieldset>
-                        <legend>Nouvelle publication</legend>
-                        <div>
-                            <textarea required id="message" minlength="1" maxlength="250" name="message"
-                                      placeholder="Les liens des looks?"></textarea>
-                        </div>
-                        <div>
-                            <button type="button" id="feedy-new-submit" onclick="submitFeedy()">Publier!</button>
-                        </div>
-                    </fieldset>
-                </form>
-            {% endif %}
             {% for publication in publications %}
                 <div class="row row-cols-1 row-cols-md-3 g-4">
                     <a href="{{ route("detail_publication", {"idPublication" : publication.getIdPublication()}) }}">

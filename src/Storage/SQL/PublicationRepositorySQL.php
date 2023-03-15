@@ -65,7 +65,7 @@ class PublicationRepositorySQL implements Repository
         $values = [
             "idAuteur" => $idUtilisateur,
         ];
-        $statement = $this->pdo->prepare("SELECT idPublication, date, message, pathPhoto, idUtilisateur, login, profilePictureName
+        $statement = $this->pdo->prepare("SELECT idPublication, date, message, pathPhoto, descriptionPhoto, idUtilisateur, login, profilePictureName
                                                 FROM publications p 
                                                 JOIN utilisateurs u on p.idAuteur = u.idUtilisateur
                                                 WHERE idAuteur = :idAuteur                    
@@ -86,15 +86,19 @@ class PublicationRepositorySQL implements Repository
      * @param Publication $publication
      */
     public function create($publication) {
+        var_dump($publication);
+        die();
         $values = [
-            "photo" => $publication->getPhotoPath(),
+            "description" => $publication->getDescription(),
             "date" => $publication->getDate()->format('Y-m-d H:i:s'),
             "idAuteur" => $publication->getUtilisateur()->getIdUtilisateur(),
-            "description" => $publication->getDescription()
+            "photo" => $publication->getPhotoPath(),
+            "descriptionPhoto" => $publication->getPhotoDescription()
         ];
-        $statement = $this->pdo->prepare("INSERT INTO publications (message, pathPhoto, date, idAuteur) VALUES(:description, :photo, :date, :idAuteur);");
+        $statement = $this->pdo->prepare("INSERT INTO publications (description, date, idAuteur, pathPhoto, descriptionPhoto) VALUES(:description, :date, :idAuteur, :photo, :descriptionPhoto);");
         $statement->execute($values);
         $publiID = $this->pdo->lastInsertId();
+
         foreach ($publication->getItems() as $item){
             $values = [
                 "link" => $item->getLink(),

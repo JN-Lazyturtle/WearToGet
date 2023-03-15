@@ -4,20 +4,20 @@ namespace TheFeed\Business\Services;
 
 use TheFeed\Business\Entity\Item;
 use TheFeed\Business\Exception\ServiceException;
-use TheFeed\Storage\SQL\PieceRepositorySQL;
+use TheFeed\Storage\SQL\ItemRepositorySQL;
 use TheFeed\Storage\SQL\PublicationRepositorySQL;
 
 class ItemService
 {
-    private PieceRepositorySQL $pieceRepositorySQL;
+    private ItemRepositorySQL $pieceRepositorySQL;
 
     private PublicationRepositorySQL $publicationRepositorySQL;
 
     /**
-     * @param PieceRepositorySQL $pieceRepositorySQL
+     * @param ItemRepositorySQL $pieceRepositorySQL
      * @param PublicationRepositorySQL $publicationRepositorySQL
      */
-    public function __construct(PieceRepositorySQL $pieceRepositorySQL, PublicationRepositorySQL $publicationRepositorySQL)
+    public function __construct(ItemRepositorySQL $pieceRepositorySQL, PublicationRepositorySQL $publicationRepositorySQL)
     {
         $this->pieceRepositorySQL = $pieceRepositorySQL;
         $this->publicationRepositorySQL = $publicationRepositorySQL;

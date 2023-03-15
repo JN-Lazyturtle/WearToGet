@@ -6,7 +6,7 @@ use Framework\Storage\Repository;
 use PDO;
 use TheFeed\Business\Entity\Item;
 
-class PieceRepositorySQL implements Repository
+class ItemRepositorySQL implements Repository
 {
     private PDO $pdo;
 
