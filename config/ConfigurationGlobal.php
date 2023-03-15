@@ -150,6 +150,15 @@ class ConfigurationGlobal
                 "_logged" => true,
             ]
         ],
+        "mes_likes" => [
+            "path" => "/liked/{idLiked}/user/{idUser}",
+            "methods" => ["POST"],
+            "parameters" => [
+                "_controller" => "utilisateur_controller::addLiked",
+                "idLiked" => null,
+                "idUser" => null,
+            ]
+        ]
     ];
 
     const listeners = [

@@ -24,7 +24,24 @@ class UtilisateurController extends Controller
         try {
             $publications = $publicationsService->getPublicationsFrom($idUser);
             $utilisateur = $userService->getUtilisateur($idUser, false);
-            return $this->render("Utilisateurs/page_perso.html.twig", ["utilisateur" => $utilisateur, "publications" => $publications]);
+            return $this->render(
+                "Utilisateurs/page_perso.html.twig",
+                ["utilisateur" => $utilisateur, "publications" => $publications['owner']]);
+        }
+        catch (ServiceException $exception) {
+            throw new ResourceNotFoundException();
+        }
+    }
+
+    public function pageLiked($idUser) {
+        $publicationsService = $this->container->get('publication_service');
+        $userService = $this->container->get('utilisateur_service');
+        try {
+            $publications = $publicationsService->getPublicationsFrom($idUser);
+            $utilisateur = $userService->getUtilisateur($idUser, false);
+            return $this->render(
+                "Utilisateurs/page_liked.html.twig",
+                ["utilisateur" => $utilisateur, "liked" => $publications['liked']]);
         }
         catch (ServiceException $exception) {
             throw new ResourceNotFoundException();
@@ -65,6 +82,13 @@ class UtilisateurController extends Controller
         $userService = $this->container->get('utilisateur_service');
         $userService->deconnexion();
         return $this->redirectToRoute('feed');
+    }
+
+    public function addLiked(Request $request) {
+        $idLiked = $request->get("idLiked");
+        $idUser = $request->get("idUser");
+        $publicationsService = $this->container->get('publication_service');
+        $publicationsService->createNewLike($idLiked, $idUser);
     }
 
 }

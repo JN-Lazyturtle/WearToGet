@@ -176,4 +176,36 @@ class PublicationRepositorySQL implements Repository
         $publi->setItems($this->getItems($data["idPublication"]));
         return $publi;
     }
+
+    public function getAllLikedFrom($idUtilisateur) : array {
+        $values = [
+            "idAuteur" => $idUtilisateur,
+        ];
+        $statement = $this->pdo->prepare("SELECT idPublication, date, message, pathPhoto, idUtilisateur, login, profilePictureName
+                                                FROM publications p 
+                                                JOIN liked_utilisateur lu on p.idPublication = lu.idLiked
+                                                JOIN utilisateurs u on lu.idUtilisateur = u.idAuteur
+                                                WHERE idAuteur = :idAuteur
+                                                ");
+        $statement->execute($values);
+
+        $likedPublis = [];
+
+        foreach ($statement as $data) {
+            $publi = $this->getPublicationFromData($data);
+            $likedPublis[] = $publi;
+        }
+
+        return $likedPublis;
+    }
+
+    public function createLike($idLiked, $idUser) {
+        $values = [
+            "idLiked" => $idLiked,
+            "idUser" => $idUser,
+        ];
+        $statement = $this->pdo->prepare("INSERT INTO liked_utilisateur (idLiked, idUtilisateur) VALUES(:idLiked, :idUser);");
+        $statement->execute($values);
+    }
+
 }
