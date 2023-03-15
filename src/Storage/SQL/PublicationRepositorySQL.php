@@ -65,7 +65,7 @@ class PublicationRepositorySQL implements Repository
         $values = [
             "idAuteur" => $idUtilisateur,
         ];
-        $statement = $this->pdo->prepare("SELECT idPublication, date, photo, idUtilisateur, login, profilePictureName
+        $statement = $this->pdo->prepare("SELECT idPublication, date, pathPhoto, descriptionPhoto, idUtilisateur, login, profilePictureName
                                                 FROM publications p 
                                                 JOIN utilisateurs u on p.idAuteur = u.idUtilisateur
                                                 WHERE idAuteur = :idAuteur                    
@@ -91,7 +91,7 @@ class PublicationRepositorySQL implements Repository
             "date" => $publication->getDate()->format('Y-m-d H:i:s'),
             "idAuteur" => $publication->getUtilisateur()->getIdUtilisateur()
         ];
-        $statement = $this->pdo->prepare("INSERT INTO publications (photo, date, idAuteur) VALUES(:photo, :date, :idAuteur);");
+        $statement = $this->pdo->prepare("INSERT INTO publications (pathPhoto, descriptionPhoto, date, idAuteur) VALUES(:photo, :date, :idAuteur);");
         $statement->execute($values);
         $publiID = $this->pdo->lastInsertId();
         foreach ($publication->getItems() as $item){
@@ -112,7 +112,7 @@ class PublicationRepositorySQL implements Repository
         $values = [
             "idPublication" => $id,
         ];
-        $statement = $this->pdo->prepare("SELECT idPublication, date, photo, idUtilisateur, login, profilePictureName
+        $statement = $this->pdo->prepare("SELECT idPublication, date, pathPhoto, descriptionPhoto, idUtilisateur, login, profilePictureName
                                                 FROM publications p 
                                                 JOIN utilisateurs u on p.idAuteur = u.idUtilisateur
                                                 WHERE idPublication = :idPublication");

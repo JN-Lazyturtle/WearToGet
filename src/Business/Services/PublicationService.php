@@ -2,6 +2,7 @@
 
 namespace TheFeed\Business\Services;
 
+use TheFeed\Business\Entity\Item;
 use TheFeed\Business\Entity\Publication;
 use TheFeed\Business\Exception\ServiceException;
 
@@ -33,18 +34,20 @@ class PublicationService
     /**
      * @param Item[] $items
      */
-    public function createNewPublication($idUtilisateur,string $photoPath, string $photoDescription, array $items) {
+    public function createNewPublication($idUtilisateur,string $description, string $photoPath, string $photoDescription, array $items) {
             $utilisateur = $this->serviceUtilisateur->getUtilisateur($idUtilisateur, false);
-            $publication = Publication::create($photoPath, $photoDescription, $items, $utilisateur);
+            $publication = Publication::create($photoPath, $description, $photoDescription, $items, $utilisateur);
             $id = $this->repository->create($publication);
             return $this->repository->get($id);
     }
 
     public function getPublicationsFrom($refUtilisateur) {
         $utilisateur = $this->serviceUtilisateur->getUtilisateur($refUtilisateur);
+
         if($utilisateur == null) {
             $utilisateur = $this->serviceUtilisateur->getUtilisateurByLogin($refUtilisateur, false);
         }
+
         return $this->repository->getAllFrom($utilisateur->getIdUtilisateur());
     }
 

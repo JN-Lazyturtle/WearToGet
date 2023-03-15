@@ -22,6 +22,8 @@ class Publication implements JsonSerializable
      */
     private Utilisateur $utilisateur;
 
+    private string $message;
+
     private string $photoPath;
 
     private string $photoDescription;
@@ -35,10 +37,11 @@ class Publication implements JsonSerializable
     /**
      * @param Item[] $items
      */
-    public static function create(string $photo, string $photoDescription, array $items, Utilisateur $utilisateur) {
+    public static function create(string $photo,string $description, string $photoDescription, array $items, Utilisateur $utilisateur) {
         $publication = new Publication();
         $publication->date = new DateTime();
         $publication->utilisateur = $utilisateur;
+        $publication->message = $description;
         $publication->photoPath = $photo;
         $publication->photoDescription = $photoDescription;
         $publication->items = $items;
@@ -151,12 +154,28 @@ class Publication implements JsonSerializable
         return $this;
     }
 
+    public function getMessage(): string
+    {
+        return $this->message;
+    }
+
+    public function setMessage(string $message): self
+    {
+        $this->message = $message;
+
+        return $this;
+    }
+
+
+
     public function jsonSerialize() : array
     {
         return [
             "idPublication" => $this->idPublication,
-            "message" => $this->message,
+            "description" => $this->message,
             "date" => $this->getDate()->format('d F Y'),
+            "pathPhoto" => $this->photoPath,
+            "photoDescription" => $this->photoDescription,
             "utilisateur" => [
                 "idUtilisateur" => $this->utilisateur->getIdUtilisateur(),
                 "login" => $this->utilisateur->getLogin(),

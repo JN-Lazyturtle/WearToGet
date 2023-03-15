@@ -9,7 +9,7 @@ use TheFeed\Business\Exception\ServiceException;
 
 class PublicationControllerAPI extends Controller
 {
-    public function submitFeedy(Request $request) {
+    public function submitPublication(Request $request) {
         if($content = $request->getContent()) {
             $json = json_decode($content, true);
             $message = $json["message"] ?? null;

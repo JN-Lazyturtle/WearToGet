@@ -33,13 +33,17 @@ class PublicationController extends Controller
         return $this->feed();
     }
 
-    public function submitFeedy(Request $request) {
+    public function submitPublication(Request $request) {
+
         $userService = $this->container->get('utilisateur_service');
-            $userId = $userService->getUserId();
-            $message = $request->get('message');
-            $service = $this->container->get('publication_service');
+        $userId = $userService->getUserId();
+        $description = $request->get('outfit-description');
+        $service = $this->container->get('publication_service');
+        $photoPath = $request->get('outfit-picture');
+        $photoDescription = $request->get('outfit-description');
+        $items = $request->get('items');
             try {
-                $service->createNewPublication($userId, $message);
+                $service->createNewPublication($userId, $description, $photoPath, $photoDescription, $items);
             } catch (ServiceException $e) {
                 $this->addFlash('error', $e->getMessage());
             }
