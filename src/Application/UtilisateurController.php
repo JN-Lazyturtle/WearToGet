@@ -87,8 +87,8 @@ class UtilisateurController extends Controller
     public function addLiked(Request $request) {
         $idLiked = $request->get("idLiked");
         $idUser = $request->get("idUser");
-        $publicationsService = $this->container->get('publication_service');
-        $publicationsService->createNewLike($idLiked, $idUser);
+        $utilisateursService = $this->container->get('utilisateur_service');
+        $utilisateursService->createNewLike($idLiked, $idUser);
         return $this->redirectToRoute('feed');
     }
 

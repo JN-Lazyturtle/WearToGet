@@ -40,10 +40,6 @@ class PublicationService
             return $this->repository->get($id);
     }
 
-    public function createNewLike(int $idLiked, int $idUser) {
-        $this->repository->createLike($idLiked, $idUser);
-    }
-
     public function getPublicationsFrom($refUtilisateur) {
         $utilisateur = $this->serviceUtilisateur->getUtilisateur($refUtilisateur);
         if($utilisateur == null) {

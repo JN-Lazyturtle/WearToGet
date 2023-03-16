@@ -122,4 +122,8 @@ class UtilisateurService
     public function estConnecte() {
         return $this->sessionManager->has('id');
     }
+
+    public function createNewLike(int $idLiked, int $idUser) {
+        $this->repository->createLike($idLiked, $idUser);
+    }
 }

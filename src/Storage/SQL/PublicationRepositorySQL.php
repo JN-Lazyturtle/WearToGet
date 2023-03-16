@@ -199,13 +199,4 @@ class PublicationRepositorySQL implements Repository
         return $likedPublis;
     }
 
-    public function createLike($idLiked, $idUser) {
-        $values = [
-            "idLiked" => $idLiked,
-            "idUser" => $idUser,
-        ];
-        $statement = $this->pdo->prepare("INSERT INTO liked_utilisateur (idLiked, idUtilisateur) VALUES(:idLiked, :idUser);");
-        $statement->execute($values);
-    }
-
 }
