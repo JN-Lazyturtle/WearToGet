@@ -29,10 +29,10 @@ class Item implements \JsonSerializable
      */
     private $brand;
 
-    public static function create($lien, $type, $publication, $marque)
+    public static function create($lien, $type, $idPublication, $marque)
     {
         $piece = new Item();
-        $piece->publication = $publication->getId();
+        $piece->publication = $idPublication;
         $piece->link = $lien;
         $piece->category = $type;
         $piece->brand = $marque;
@@ -137,4 +137,17 @@ class Item implements \JsonSerializable
             ]
         ];
     }
+
+    public function __toString(): string
+    {
+        return "[
+            'idPiece' => $this->idItem,
+            'lien' => $this->link,
+            'type' => $this->category,
+            'marque' => $this->brand,
+            'publication' 
+            ]";
+    }
+
+
 }

@@ -17,7 +17,7 @@ class ItemRepositorySQL implements Repository
 
     public function getAll(): array
     {
-        $statement = $this->pdo->prepare("SELECT * FROM pieces");
+        $statement = $this->pdo->prepare("SELECT * FROM piece");
 
         $statement->execute();
 
@@ -35,11 +35,28 @@ class ItemRepositorySQL implements Repository
         return $pieces;
     }
 
+    public function getAllCategory(): array
+    {
+        $statement = $this->pdo->prepare("SELECT DISTINCT type FROM piece");
+
+        $statement->execute();
+
+        $categories = [];
+
+        foreach ($statement as $data) {
+            $piece = new Item();
+            $piece->setCategory($data['type']);
+            $categories[] = $piece;
+        }
+
+        return $categories;
+    }
+
     public function getAllByPublication($idPublication): array
     {
         $statement = $this->pdo->prepare("SELECT * 
-                                            FROM pieces 
-                                            JOIN publications pub ON pub.idPublication = pieces.publication
+                                            FROM piece 
+                                            JOIN publications pub ON pub.idPublication = piece.publication
                                             WHERE idPublication = :idPublication");
 
         $values = [
@@ -65,7 +82,7 @@ class ItemRepositorySQL implements Repository
     public function get($id)
     {
         $statement = $this->pdo->prepare("SELECT * 
-                                            FROM pieces 
+                                            FROM piece 
                                             WHERE idPiece = :id");
 
         $values = [
@@ -87,12 +104,12 @@ class ItemRepositorySQL implements Repository
 
     public function create($piece)
     {
-        $statement = $this->pdo->prepare("INSERT INTO pieces (lien, type, marque, idPublication) VALUES(:lien, :type, :marque, :idPublication);");
+        $statement = $this->pdo->prepare("INSERT INTO piece (lien, type, marque, idPublication) VALUES(:lien, :type, :marque, :idPublication);");
 
         $values = [
-            "lien" => $piece->getLien(),
-            "type" => $piece->getType(),
-            "marque" => $piece->getMarque(),
+            "lien" => $piece->getLink(),
+            "type" => $piece->getCategory(),
+            "marque" => $piece->getBrand(),
             "idPublication" => $piece->getPublication()->getIdPublication()
         ];
 
@@ -103,7 +120,7 @@ class ItemRepositorySQL implements Repository
 
     public function update($piece)
     {
-        $statement = $this->pdo->prepare("UPDATE pieces SET lien = :lien WHERE idPiece = :idPiece;");
+        $statement = $this->pdo->prepare("UPDATE piece SET lien = :lien WHERE idPiece = :idPiece;");
 
         $values = [
             "idPiece" => $piece->getIdPiece(),
@@ -115,7 +132,7 @@ class ItemRepositorySQL implements Repository
 
     public function remove($piece)
     {
-        $statement = $this->pdo->prepare("DELETE FROM pieces WHERE idPiece = :idPiece;");
+        $statement = $this->pdo->prepare("DELETE FROM piece WHERE idPiece = :idPiece;");
 
         $values = [
             "idPiece" => $piece->getIdPiece()

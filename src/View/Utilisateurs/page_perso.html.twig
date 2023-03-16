@@ -22,22 +22,24 @@
                                 <label class="fw-bolder" for="profile-pic">Photo outfit</label>
                                 <input required type="file" id="profile-pic" name="outfit-picture" accept="image/png, image/jpeg">
                             </div>
-                            {% for category in categories %}
-                            <div class="col">
-                                <label>
-                                    <input type="checkbox" name="categories[]" value="{{ category }}" {% if category in selected_categories %}checked{% endif %}>
-                                    {{ category }}
-                                </label>
-                            </div>
-                            {% endfor %}
-                        </div>
+{#                            {% for category in categories %}#}
+{#                            <div class="col">#}
+{#                                <label>#}
+{#                                    <input type="checkbox" name="categories[]" value="{{ category }}" {% if category in selected_categories %}checked{% endif %}>#}
+{#                                    {{ category }}#}
+{#                                </label>#}
+{#                            </div>#}
+{#                            {% endfor %}#}
+{#                        </div>#}
                         <div class="form-group py-3 ">
                             <label for="item">Description de votre look :</label>
-                            <input type="text" class="form-control border border-secondary" id="photo-description" minlength="1" maxlength="250" name="outfit-description" placeholder="Saisissez votre description ici">
+                            <input type="text" class="form-control border" id="photo-description" minlength="1" maxlength="250" name="outfit-description" placeholder="Saisissez votre description ici">
                         </div>
                         <div>
                             <label for="item">Les liens de votre look :</label>
-                            <textarea class="rounded" required id="message" minlength="1" maxlength="250" name="items" placeholder="Les liens de votre look"></textarea>
+                            <input type="text" class="form-control border my-3" id="photo-description" minlength="1" maxlength="250" name="marque" placeholder="Ici les marques">
+                            <input type="text" class="form-control border my-3" id="photo-description" minlength="1" maxlength="250" name="category" placeholder="Ici les catégories">
+                            <textarea class="border rounded" id="message" minlength="1" maxlength="250" name="items" placeholder="Les liens de votre look"></textarea>
                         </div>
                         <div class="text-center d-flex">
                             <button class="mx-auto rounded" type="submit" id="feedy-new-submit">Publier!</button>

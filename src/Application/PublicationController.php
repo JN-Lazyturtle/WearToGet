@@ -3,11 +3,13 @@
 namespace TheFeed\Application;
 
 use Framework\Application\Controller;
+use Framework\Services\UserSessionManager;
 use Symfony\Component\HttpFoundation\Request;
 use TheFeed\Business\Exception\ServiceException;
 
 class PublicationController extends Controller
 {
+    private UserSessionManager $sessionManager;
 
     public function feed() {
         $service = $this->container->get('publication_service');
@@ -39,11 +41,22 @@ class PublicationController extends Controller
         $userId = $userService->getUserId();
         $description = $request->get('outfit-description');
         $photoPath = $request->get('outfit-picture');
+        var_dump($photoPath);
         $photoDescription = $request->get('outfit-description');
-        $items = $request->get('items');
-        $items_array = explode(',', $items);
+
+        $item = $request->get('items');
+        $items_mark = $request->get('marque');
+        $items_category = $request->get('category');
+        $itemString = preg_replace('/\s+/', ' ', $item);
+        $items_array = explode(' ', $itemString);
+        $items = [
+            'mark' => $items_mark,
+            'category' => $items_category,
+            'link' => $items_array
+        ];
+
             try {
-                $service->createNewPublication($userId, $description, $photoPath, $photoDescription, $items_array);
+                $service->createNewPublication($userId, $description, $photoPath, $photoDescription, $items);
             } catch (ServiceException $e) {
                 $this->addFlash('error', $e->getMessage());
             }

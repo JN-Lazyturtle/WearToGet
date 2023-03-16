@@ -11,11 +11,14 @@ class PublicationService
 
     private $repository;
 
+    private $itemRepository;
+
     private UtilisateurService $serviceUtilisateur;
 
     public function __construct($repositoryManager, UtilisateurService $serviceUtilisateur)
     {
         $this->repository = $repositoryManager->getRepository(Publication::class);
+        $this->itemRepository = $repositoryManager->getRepository(Item::class);
         $this->serviceUtilisateur = $serviceUtilisateur;
     }
 
@@ -36,11 +39,19 @@ class PublicationService
     /**
      * @param Item[] $items
      */
-    public function createNewPublication($idUtilisateur,string $description, string $photoPath, string $photoDescription, array $items)
+    public function createNewPublication($idUtilisateur, string $description, string $photoPath, string $photoDescription, array $items)
     {
         $utilisateur = $this->serviceUtilisateur->getUtilisateur($idUtilisateur, false);
-        $publication = Publication::create($description, $photoPath, $photoDescription, $items, $utilisateur);
+        $publication = Publication::create($description, $photoPath, $photoDescription, $utilisateur);
         $id = $this->repository->create($publication);
+        $publication->setIdPublication($id);
+
+        foreach ($items['link'] as $link){
+            $item = Item::create($link, $items['category'], $id, $items['mark']);
+            $item->setPublication($publication);
+            $this->itemRepository->create($item);
+        }
+
         return $this->repository->get($id);
     }
 

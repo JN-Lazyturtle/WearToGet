@@ -172,10 +172,10 @@ class ConfigurationGlobal
                 "%profile_pictures_storage%"
             ])
         ;
-        $container->register('piece_service', ItemService::class)
+        $container->register('item_service', ItemService::class)
             ->setArguments([
                 new Reference('repository_manager'),
-                new Reference('piece_service')
+                new Reference('publication_service')
             ])
         ;
         $container->register('app_listener', AppListener::class)

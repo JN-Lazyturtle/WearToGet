@@ -26,13 +26,14 @@ class UtilisateurController extends Controller
         $userService = $this->container->get('utilisateur_service');
         $itemService = $this->container->get('item_service');
         try {
+
             $publications = $publicationsService->getPublicationsFrom($idUser);
             $utilisateur = $userService->getUtilisateur($idUser, false);
             $itemCategory = $itemService->getAllCategory();
             return $this->render("Utilisateurs/page_perso.html.twig", [
                     "utilisateur" => $utilisateur,
-                    "publications" => $publications,
-                    "categories" => $itemCategory
+                    "publications" => $publications
+//                    "categories" => $itemCategory
                 ]);
         } catch (ServiceException $exception) {
             throw new ResourceNotFoundException();
