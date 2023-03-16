@@ -152,7 +152,7 @@ class ConfigurationGlobal
         ],
         "mes_likes" => [
             "path" => "/liked/{idLiked}/user/{idUser}",
-            "methods" => ["POST"],
+            "methods" => ["GET"],
             "parameters" => [
                 "_controller" => "utilisateur_controller::addLiked",
                 "idLiked" => null,

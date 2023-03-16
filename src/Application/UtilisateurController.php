@@ -89,6 +89,7 @@ class UtilisateurController extends Controller
         $idUser = $request->get("idUser");
         $publicationsService = $this->container->get('publication_service');
         $publicationsService->createNewLike($idLiked, $idUser);
+        return $this->redirectToRoute('feed');
     }
 
 }
