@@ -5,7 +5,7 @@
     <div class="card mb-3" style="max-width: 80%; margin-top: 2%">
         <div class="row g-0">
             <div class="col-md-4">
-                <img src="{{ post.getPhotoPath() }}" class="img-fluid rounded-start" alt="{{ post.getPhotoDescription() }}">
+                <img src="{{ asset("img/" ~ post.photoPath ) }}" class="img-fluid rounded-start" alt="{{ post.getPhotoDescription() }}">
             </div>
             <div class="col-md-8">
                 <div class="card-body">
