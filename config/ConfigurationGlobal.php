@@ -158,6 +158,15 @@ class ConfigurationGlobal
                 "idLiked" => null,
                 "idUser" => null,
             ]
+        ],
+        "unlike" => [
+            "path" => "/unlike/{idLiked}/user/{idUser}",
+            "methods" => ["GET"],
+            "parameters" => [
+                "_controller" => "utilisateur_controller::removeLiked",
+                "idLiked" => null,
+                "idUser" => null,
+            ]
         ]
     ];
 

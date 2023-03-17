@@ -33,6 +33,8 @@ class Publication implements JsonSerializable
      */
     private array $items;
 
+    private bool $liked = false;
+
 
     /**
      * @param Item[] $items
@@ -191,4 +193,22 @@ class Publication implements JsonSerializable
             ]
         ];
     }
+
+    /**
+     * @return bool
+     */
+    public function isLiked(): bool
+    {
+        return $this->liked;
+    }
+
+    /**
+     * @param bool $like
+     */
+    public function setLiked(bool $liked): void
+    {
+        $this->liked = $liked;
+    }
+
+
 }

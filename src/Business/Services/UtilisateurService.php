@@ -29,6 +29,14 @@ class UtilisateurService
         $this->profilePicturesRoot = $profilePicturesRoot;
     }
 
+    /**
+     * @return UserSessionManager
+     */
+    public function getSessionManager(): UserSessionManager
+    {
+        return $this->sessionManager;
+    }
+
     public function getUtilisateur($idUtilisateur, $allowNull = true) {
         $utilisateur =  $this->repository->get($idUtilisateur);
         if(!$allowNull && $utilisateur == null) {
@@ -125,5 +133,9 @@ class UtilisateurService
 
     public function createNewLike(int $idLiked, int $idUser) {
         $this->repository->createLike($idLiked, $idUser);
+    }
+
+    public function removeLike(int $idLiked, int $idUser) {
+        $this->repository->deleteLike($idLiked, $idUser);
     }
 }

@@ -92,4 +92,12 @@ class UtilisateurController extends Controller
         return $this->redirectToRoute('feed');
     }
 
+    public function removeLiked(Request $request) {
+        $idLiked = $request->get("idLiked");
+        $idUser = $request->get("idUser");
+        $utilisateursService = $this->container->get('utilisateur_service');
+        $utilisateursService->removeLike($idLiked, $idUser);
+        return $this->redirectToRoute('feed');
+    }
+
 }

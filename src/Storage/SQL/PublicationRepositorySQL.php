@@ -179,14 +179,16 @@ class PublicationRepositorySQL implements Repository
 
     public function getAllLikedFrom($idUtilisateur) : array {
         $values = [
-            "idAuteur" => $idUtilisateur,
+            "idUtilisateur" => $idUtilisateur,
         ];
-        $statement = $this->pdo->prepare("SELECT idPublication, date, message, pathPhoto, idUtilisateur, login, profilePictureName
-                                                FROM publications p 
-                                                JOIN liked_utilisateur lu on p.idPublication = lu.idLiked
-                                                JOIN utilisateurs u on lu.idUtilisateur = u.idAuteur
-                                                WHERE idAuteur = :idAuteur
-                                                ");
+
+        $statement = $this->pdo->prepare(
+            "SELECT idPublication, date, message, pathPhoto, descriptionPhoto, u.idUtilisateur, login, profilePictureName 
+                    FROM publications p 
+                    JOIN liked_utilisateur lu on p.idPublication = lu.idLiked 
+                    JOIN utilisateurs u on p.idAuteur = u.idUtilisateur 
+                    WHERE lu.idUtilisateur = :idUtilisateur"
+        );
         $statement->execute($values);
 
         $likedPublis = [];

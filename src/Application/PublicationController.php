@@ -13,6 +13,19 @@ class PublicationController extends Controller
         $service = $this->container->get('publication_service');
         $publications = $service->getAllPublications();
 
+        $serviceUser = $this->container->get('utilisateur_service');
+        $idUtilisateurLogged = $serviceUser->getSessionManager()->get('id');
+        $publicationsLiked = $serviceUser->getUtilisateur($idUtilisateurLogged)->getLikedPublications();
+
+        if ($idUtilisateurLogged) {
+            foreach ($publications as $publication) {
+                if (in_array($publication, $publicationsLiked)) {
+                    $publication->setLiked(true);
+                }
+            }
+        }
+
+
         return $this->render('Publications/home.html.twig', ["publications" => $publications]);
     }
 

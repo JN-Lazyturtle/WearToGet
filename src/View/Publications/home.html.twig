@@ -34,9 +34,15 @@
                                 <div class="card-footer">
                                     <small class="text-muted">Publié par {{ publication.utilisateur.login }}</small>
                                     {% if session.get('id') and session.get('id') != publication.utilisateur.idUtilisateur %}
-                                        <a href="{{ route("mes_likes", {"idLiked" : publication.getIdPublication(), "idUser" : session.get('id') }) }}" class="delete-feedy">
-                                            Like
-                                        </a>
+                                        {% if publication.isLiked() %}
+                                            <a href="{{ route("unlike", {"idLiked" : publication.getIdPublication(), "idUser" : session.get('id') }) }}">
+                                                Delike
+                                            </a>
+                                        {% else %}
+                                            <a href="{{ route("mes_likes", {"idLiked" : publication.getIdPublication(), "idUser" : session.get('id') }) }}" class="">
+                                                Like
+                                            </a>
+                                        {% endif %}
                                     {% endif %}
                                 </div>
                             </div>

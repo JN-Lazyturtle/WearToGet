@@ -16,9 +16,11 @@ class Utilisateur
 
     private $profilePictureName;
 
+    private $likedPublications;
+
     public function __construct()
     {
-
+        $this->likedPublications = [];
     }
 
     public static function create($login, $passwordChiffre, $addresseMail, $profilePictureName) : Utilisateur
@@ -79,5 +81,32 @@ class Utilisateur
     public function setProfilePictureName($profilePictureName): void
     {
         $this->profilePictureName = $profilePictureName;
+    }
+
+    public function getLikedPublications(): array
+    {
+        return $this->likedPublications;
+    }
+
+    public function setLikedPublications(Array $likedPublications): self
+    {
+        $this->likedPublications = $likedPublications;
+        return $this;
+    }
+
+    public function addLikedPublication(Publication $publication): self
+    {
+        if (!in_array($publication, $this->likedPublications)){
+            $this->likedPublications[] = $publication;
+        }
+        return $this;
+    }
+
+    public function removeLikedPublication(Publication $publication): self
+    {
+        if (in_array($publication, $this->likedPublications)){
+            unset($publication, $this->likedPublications);
+        }
+        return $this;
     }
 }

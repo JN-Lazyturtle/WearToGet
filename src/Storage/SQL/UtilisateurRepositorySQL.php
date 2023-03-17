@@ -115,6 +115,10 @@ class UtilisateurRepositorySQL implements Repository
             $utilisateur->setPassword($data["password"]);
             $utilisateur->setAdresseMail($data["adresseMail"]);
             $utilisateur->setProfilePictureName($data["profilePictureName"]);
+            $publicationsRepository = new PublicationRepositorySQL($this->pdo);
+            $utilisateur->setLikedPublications(
+                $publicationsRepository->getAllLikedFrom($data["idUtilisateur"])
+            );
             return $utilisateur;
         }
     }
@@ -125,6 +129,16 @@ class UtilisateurRepositorySQL implements Repository
             "idUser" => $idUser,
         ];
         $statement = $this->pdo->prepare("INSERT INTO liked_utilisateur (idLiked, idUtilisateur) VALUES(:idLiked, :idUser);");
+        $statement->execute($values);
+    }
+
+    public function deleteLike($idLiked, $idUser)
+    {
+        $values = [
+            "idLiked" => $idLiked,
+            "idUser" => $idUser,
+        ];
+        $statement = $this->pdo->prepare("DELETE FROM liked_utilisateur WHERE idLiked = :idLiked AND idUtilisateur = :idUser");
         $statement->execute($values);
     }
 }
