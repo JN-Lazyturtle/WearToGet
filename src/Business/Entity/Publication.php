@@ -37,22 +37,13 @@ class Publication implements JsonSerializable
     /**
      * @param Item[] $items
      */
-    public static function create(string $description, string $photo, string $photoDescription, array $items, Utilisateur $utilisateur) {
-       echo "<pre>";
-        var_dump('description', $description);
-        var_dump('photo', $photo);
-        var_dump('photoDescription', $photoDescription);
-        var_dump('items', $items);
-        var_dump('utilisateur', $utilisateur);
-        echo "</pre>";
-        die();
+    public static function create(string $description, string $photo, string $photoDescription, Utilisateur $utilisateur) {
         $publication = new Publication();
         $publication->date = new DateTime();
         $publication->utilisateur = $utilisateur;
         $publication->description = $description;
         $publication->photoPath = $photo;
         $publication->photoDescription = $photoDescription;
-        $publication->items = $items;
         return $publication;
     }
 

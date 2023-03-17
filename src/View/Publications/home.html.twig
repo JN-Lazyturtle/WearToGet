@@ -7,14 +7,13 @@
         <div class="container">
             {% for publication in publications %}
                 <div class="row row-cols-1 row-cols-md-3 g-4">
-                    <a href="{{ route("detail_publication", {"idPublication" : publication.getIdPublication()}) }}">
                         <div class="col">
                             <div class="card h-100 rounded-3 shadow">
-                                <img src="https://resize.elle.fr/portrait/var/plain_site/storage/images/mode/dossiers-mode/look-glamour-2945290/54225782-1-fre-FR/C-est-quoi-un-look-glamour.jpg"
-                                     class="card-img-top" alt="...">
+                                <a href="{{ route("detail_publication", {"idPublication" : publication.getIdPublication()}) }}">
+                                <img src=" {{ asset("img/" ~ publication.photoPath ) }}" class="card-img-top" alt="{{ publication.photoDescription }}">
+                                </a>
                                 <div class="card-body">
-                                    <h5 class="card-title">LOOK DU JOUR</h5>
-                                    <p class="card-text">Description</p>
+                                    <h5 class="card-title"> {{ publication.description }}</h5>
                                     <a class="text-info">En savoir plus</a>
                                 </div>
                                 <div class="card-footer">
@@ -22,7 +21,6 @@
                                 </div>
                             </div>
                         </div>
-                    </a>
                 </div>
             {% endfor %}
             {% if not publications %}

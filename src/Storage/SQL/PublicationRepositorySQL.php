@@ -26,6 +26,7 @@ class PublicationRepositorySQL implements Repository
                                                 ORDER BY date DESC");
         $statement->execute();
 
+
         $publis = [];
 
         foreach ($statement as $data) {
@@ -86,30 +87,32 @@ class PublicationRepositorySQL implements Repository
      * @param Publication $publication
      */
     public function create($publication) {
-        var_dump($publication);
-        die();
+
         $values = [
-            "description" => $publication->getDescription(),
+            "message" => $publication->getDescription(),
             "date" => $publication->getDate()->format('Y-m-d H:i:s'),
             "idAuteur" => $publication->getUtilisateur()->getIdUtilisateur(),
             "photo" => $publication->getPhotoPath(),
             "descriptionPhoto" => $publication->getPhotoDescription()
         ];
-        $statement = $this->pdo->prepare("INSERT INTO publications (description, date, idAuteur, pathPhoto, descriptionPhoto) VALUES(:description, :date, :idAuteur, :photo, :descriptionPhoto);");
+        $statement = $this->pdo->prepare("INSERT INTO publications (message, date, idAuteur, pathPhoto, descriptionPhoto) VALUES(:message, :date, :idAuteur, :photo, :descriptionPhoto);");
         $statement->execute($values);
         $publiID = $this->pdo->lastInsertId();
 
+        return $publiID;
+    }
+
+    public function addItemsInPublication($publication){
         foreach ($publication->getItems() as $item){
             $values = [
                 "link" => $item->getLink(),
-                "type" => $item->getCategory(),
+                "category" => $item->getCategory(),
                 "brand" => $item->getBrand(),
-                "idPublication" => $publiID
+                "idPublication" => $publication->getIdPublication()
             ];
             $statement = $this->pdo->prepare("INSERT INTO piece (lien, type, marque, idPublication) VALUES(:link, :type, :brand, :idPublication);");
             $statement->execute($values);
         }
-        return $publiID;
     }
 
     public function get($id)
