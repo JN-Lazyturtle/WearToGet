@@ -5,24 +5,24 @@
 {% block page_content %}
     <section class="mt-5">
         <div class="container">
-            {% for publication in publications %}
-                <div class="row row-cols-1 row-cols-md-3 g-4">
-                        <div class="col">
-                            <div class="card h-100 rounded-3 shadow">
-                                <a href="{{ route("detail_publication", {"idPublication" : publication.getIdPublication()}) }}">
-                                <img src=" {{ asset("img/" ~ publication.photoPath ) }}" class="card-img-top" alt="{{ publication.photoDescription }}">
-                                </a>
-                                <div class="card-body">
-                                    <h5 class="card-title"> {{ publication.description }}</h5>
-                                    <a class="text-info">En savoir plus</a>
-                                </div>
-                                <div class="card-footer">
-                                    <small class="text-muted">Publié par {{ publication.utilisateur.login }}</small>
-                                </div>
+            <div class="d-flex flex-wrap">
+                {% for publication in publications %}
+                    <div class="col mx-3">
+                        <div class="card h-100 rounded-3 shadow">
+                            <a href="{{ route("detail_publication", {"idPublication" : publication.getIdPublication()}) }}">
+                                <img src="{{ asset("img/" ~ publication.photoPath ) }}" class="card-img-top" alt="{{ publication.photoDescription }}">
+                            </a>
+                            <div class="card-body">
+                                <h5 class="card-title">{{ publication.description }}</h5>
+                                <a class="text-info">En savoir plus</a>
+                            </div>
+                            <div class="card-footer">
+                                <small class="text-muted">Publié par {{ publication.utilisateur.login }}</small>
                             </div>
                         </div>
-                </div>
-            {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
             {% if not publications %}
                 <p id="no-publications" class="center">Pas de publications pour le moment!</p>
             {% endif %}
