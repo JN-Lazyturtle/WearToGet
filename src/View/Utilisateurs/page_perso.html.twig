@@ -11,11 +11,7 @@
                         compte
                     </button>
                 </div>
-            {% endif %}
-        {% endif %}
-        {% if publications %}
-            <div>
-                {% if session.get('id') %}
+                <div>
                     <form id="feedy-new" class="Small shadow p-3 rounded my-3" action="{{ route("submit_feedy") }}"
                           method="post" enctype="multipart/form-data">
                         <fieldset>
@@ -55,13 +51,19 @@
                             </div>
                         </fieldset>
                     </form>
-                {% endif %}
+                </div>
+            {% endif %}
+        {% endif %}
+
+        {% if publications %}
+            {% if session.get('id') %}
                 <div class="d-flex flex-wrap">
                     {% for publication in publications %}
                         <div class="col mx-3">
                             <div class="card h-100 rounded-3 shadow">
                                 <a href="{{ route("detail_publication", {"idPublication" : publication.getIdPublication()}) }}">
-                                    <img src="{{ asset("img/" ~ publication.photoPath ) }}" class="card-img-top" alt="{{ publication.photoDescription }}">
+                                    <img src="{{ asset("img/" ~ publication.photoPath ) }}" class="card-img-top"
+                                         alt="{{ publication.photoDescription }}">
                                 </a>
                                 <div class="card-body">
                                     <h5 class="card-title">{{ publication.description }}</h5>
@@ -74,9 +76,9 @@
                         </div>
                     {% endfor %}
                 </div>
-            </div>
-        {% else %}
-            <p id="no-publications" class="center">Pas de publications pour le moment!</p>
+            {% else %}
+                <p id="no-publications" class="center">Pas de publications pour le moment!</p>
+            {% endif %}
         {% endif %}
     </main>
 {% endblock %}
