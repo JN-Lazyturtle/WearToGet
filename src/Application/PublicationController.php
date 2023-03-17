@@ -3,11 +3,13 @@
 namespace TheFeed\Application;
 
 use Framework\Application\Controller;
+use Framework\Services\UserSessionManager;
 use Symfony\Component\HttpFoundation\Request;
 use TheFeed\Business\Exception\ServiceException;
 
 class PublicationController extends Controller
 {
+    private UserSessionManager $sessionManager;
 
     public function feed() {
         $service = $this->container->get('publication_service');
@@ -46,14 +48,27 @@ class PublicationController extends Controller
         return $this->feed();
     }
 
-
-    public function submitFeedy(Request $request) {
+    public function submitPublication(Request $request) {
         $userService = $this->container->get('utilisateur_service');
-            $userId = $userService->getUserId();
-            $message = $request->get('message');
-            $service = $this->container->get('publication_service');
+        $service = $this->container->get('publication_service');
+        $userId = $userService->getUserId();
+        $description = $request->get('outfit-description');
+        $profilePictureFile = $request->files->get("outfitPicture");
+        $photoDescription = $request->get('outfit-description');
+
+        $item = $request->get('items');
+        $items_mark = $request->get('marque');
+        $items_category = $request->get('category');
+        $itemString = preg_replace('/\s+/', ' ', $item);
+        $items_array = explode(' ', $itemString);
+        $items = [
+            'mark' => $items_mark,
+            'category' => $items_category,
+            'link' => $items_array
+        ];
+
             try {
-                $service->createNewPublication($userId, $message);
+                $service->createNewPublication($userId, $description, $profilePictureFile, $photoDescription, $items);
             } catch (ServiceException $e) {
                 $this->addFlash('error', $e->getMessage());
             }

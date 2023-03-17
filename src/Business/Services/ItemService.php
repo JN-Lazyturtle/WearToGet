@@ -3,41 +3,47 @@
 namespace TheFeed\Business\Services;
 
 use TheFeed\Business\Entity\Item;
+use TheFeed\Business\Entity\Publication;
 use TheFeed\Business\Exception\ServiceException;
-use TheFeed\Storage\SQL\PieceRepositorySQL;
+use TheFeed\Storage\SQL\ItemRepositorySQL;
 use TheFeed\Storage\SQL\PublicationRepositorySQL;
 
 class ItemService
 {
-    private PieceRepositorySQL $pieceRepositorySQL;
+    private ItemRepositorySQL $itemRepositorySQL;
 
     private PublicationRepositorySQL $publicationRepositorySQL;
 
     /**
-     * @param PieceRepositorySQL $pieceRepositorySQL
+     * @param ItemRepositorySQL $itemRepositorySQL
      * @param PublicationRepositorySQL $publicationRepositorySQL
      */
-    public function __construct(PieceRepositorySQL $pieceRepositorySQL, PublicationRepositorySQL $publicationRepositorySQL)
+    public function __construct($repositoryManager)
     {
-        $this->pieceRepositorySQL = $pieceRepositorySQL;
-        $this->publicationRepositorySQL = $publicationRepositorySQL;
+        $this->itemRepositorySQL= $repositoryManager->getRepository(Item::class);
+        $this->publicationRepositorySQL = $repositoryManager->getRepository(Publication::class);
     }
 
-    public function getAllPieces()
+    public function getAllItems()
     {
-        return $this->pieceRepositorySQL->getAll();
+        return $this->itemRepositorySQL->getAll();
     }
 
-    public function getPiece($idItem, $allowNull)
+    public function getAllCategory()
     {
-        $piece = $this->pieceRepositorySQL->get($idItem);
+        return $this->itemRepositorySQL->getAllCategory();
+    }
+
+    public function getItem($idItem, $allowNull)
+    {
+        $piece = $this->itemRepositorySQL->get($idItem);
         if(!$allowNull && $piece == null) {
             throw new ServiceException("Lien inexistant!");
         }
         return $piece;
     }
 
-    public function createNewPiece($lien, $type, $marque, $idPublication)
+    public function createNewItem($lien, $type, $marque, $idPublication)
     {
         if($lien == null || $lien == "") {
             throw new ServiceException("Le lien ne peut pas être vide!");
@@ -53,7 +59,7 @@ class ItemService
 
         $publication = $this->publicationRepositorySQL->get($idPublication);
         $id = Item::create($lien, $type, $publication, $marque);
-        return $this->pieceRepositorySQL->get($id);
+        return $this->itemRepositorySQL->get($id);
 
     }
 

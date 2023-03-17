@@ -1,4 +1,4 @@
-function submitFeedy() {
+function submitPublication() {
     var messageElement = document.getElementById('message')
     var message = messageElement.value;
     messageElement.value = "";

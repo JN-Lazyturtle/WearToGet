@@ -15,7 +15,7 @@ use TheFeed\Business\Services\ItemService;
 use TheFeed\Business\Services\PublicationService;
 use TheFeed\Business\Services\UtilisateurService;
 use TheFeed\Listener\AppListener;
-use TheFeed\Storage\SQL\PieceRepositorySQL;
+use TheFeed\Storage\SQL\ItemRepositorySQL;
 use TheFeed\Storage\SQL\PublicationRepositorySQL;
 use TheFeed\Storage\SQL\UtilisateurRepositorySQL;
 
@@ -35,7 +35,7 @@ class ConfigurationGlobal
     const repositories = [
         Publication::class => PublicationRepositorySQL::class,
         Utilisateur::class => UtilisateurRepositorySQL::class,
-        Item::class => PieceRepositorySQL::class
+        Item::class => ItemRepositorySQL::class
     ];
 
     const userSessionManager = [
@@ -64,7 +64,7 @@ class ConfigurationGlobal
             "path" => "/feedy",
             "methods" => ["POST"],
             "parameters" => [
-                "_controller" => "publication_controller::submitFeedy",
+                "_controller" => "publication_controller::submitPublication",
                 "_logged" => true,
             ]
         ],
@@ -128,7 +128,7 @@ class ConfigurationGlobal
             "path" => "/api/feedy",
             "methods" => ["POST"],
             "parameters" => [
-                "_controller" => "publication_controller_api::submitFeedy",
+                "_controller" => "publication_controller_api::submitPublication",
                 "_logged" => true,
             ]
         ],
@@ -180,6 +180,7 @@ class ConfigurationGlobal
             ->setArguments([
                 new Reference('repository_manager'),
                 new Reference('utilisateur_service'),
+                "%profile_pictures_storage%"
             ])
         ;
         $container->register('utilisateur_service', UtilisateurService::class)
@@ -190,10 +191,10 @@ class ConfigurationGlobal
                 "%profile_pictures_storage%"
             ])
         ;
-        $container->register('piece_service', ItemService::class)
+        $container->register('item_service', ItemService::class)
             ->setArguments([
                 new Reference('repository_manager'),
-                new Reference('piece_service')
+                new Reference('publication_service')
             ])
         ;
         $container->register('app_listener', AppListener::class)
