@@ -15,11 +15,14 @@ class PublicationService
 
     private UtilisateurService $serviceUtilisateur;
 
-    public function __construct($repositoryManager, UtilisateurService $serviceUtilisateur)
+    private $profilePicturesRoot;
+
+    public function __construct($repositoryManager, UtilisateurService $serviceUtilisateur, $profilePicturesRoot)
     {
         $this->repository = $repositoryManager->getRepository(Publication::class);
         $this->itemRepository = $repositoryManager->getRepository(Item::class);
         $this->serviceUtilisateur = $serviceUtilisateur;
+        $this->profilePicturesRoot = $profilePicturesRoot;
     }
 
     public function getAllPublications()
@@ -39,10 +42,22 @@ class PublicationService
     /**
      * @param Item[] $items
      */
-    public function createNewPublication($idUtilisateur, string $description, string $photoPath, string $photoDescription, array $items)
+    public function createNewPublication($idUtilisateur, string $description, $picUploadedFile, string $photoDescription, array $items)
     {
         $utilisateur = $this->serviceUtilisateur->getUtilisateur($idUtilisateur, false);
-        $publication = Publication::create($description, $photoPath, $photoDescription, $utilisateur);
+        $fileExtension = $picUploadedFile->guessExtension();
+
+        $pictureName = uniqid().'.'.$fileExtension;
+
+        $path = $this->profilePicturesRoot;
+        $path = str_replace('/config', '', $path);
+        try{
+            $picUploadedFile->move($path, $pictureName);
+        }catch (\Exception $e){
+            throw new ServiceException($e->getMessage());
+        }
+
+        $publication = Publication::create($description, $pictureName, $photoDescription, $utilisateur);
         $id = $this->repository->create($publication);
         $publication->setIdPublication($id);
 

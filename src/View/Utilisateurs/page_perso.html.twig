@@ -7,65 +7,75 @@
         {% if session.get('id') %}
             {% if session.get('id') == utilisateur.idUtilisateur %}
                 <div class="center">
-                    <button id="btn-supprimer-compte" onclick="removeUser({{ session.get('id') }})">Supprimer mon compte</button>
+                    <button id="btn-supprimer-compte" onclick="removeUser({{ session.get('id') }})">Supprimer mon
+                        compte
+                    </button>
                 </div>
             {% endif %}
         {% endif %}
         {% if publications %}
-        <div>
-            {% if session.get('id') %}
-                <form id="feedy-new" class="Small shadow p-3 rounded my-3" action="{{ route("submit_feedy") }}" method="post">
-                    <fieldset>
-                        <legend class="text-center fw-bolder d-flex justify-content-center my-3">Nouvelle publication</legend>
-                        <div class="row my-3">
-                            <div class="col">
-                                <label class="fw-bolder" for="profile-pic">Photo outfit</label>
-                                <input required type="file" id="profile-pic" name="outfit-picture" accept="image/png, image/jpeg">
+            <div>
+                {% if session.get('id') %}
+                    <form id="feedy-new" class="Small shadow p-3 rounded my-3" action="{{ route("submit_feedy") }}"
+                          method="post" enctype="multipart/form-data">
+                        <fieldset>
+                            <legend class="text-center fw-bolder d-flex justify-content-center my-3">Nouvelle
+                                publication
+                            </legend>
+                            <div class="row my-3">
+                                <div class="col">
+                                    <label class="fw-bolder" for="profile-pic">Photo outfit</label>
+                                    <input required type="file" id="profile-pic" name="outfitPicture"
+                                           accept="image/png, image/jpeg">
+                                </div>
+
+                                <div class="form-group py-3 ">
+                                    <label for="item">Description de votre look :</label>
+                                    <label for="photo-description"></label><input type="text"
+                                                                                  class="form-control border"
+                                                                                  id="photo-description" minlength="1"
+                                                                                  maxlength="250"
+                                                                                  name="outfit-description"
+                                                                                  placeholder="Saisissez votre description ici">
+                                </div>
+                                <div>
+                                    <label for="item">Les liens de votre look :</label>
+                                    <input type="text" class="form-control border my-3" id="photo-description"
+                                           minlength="1" maxlength="250" name="marque" placeholder="Ici les marques">
+                                    <input type="text" class="form-control border my-3" id="photo-description"
+                                           minlength="1" maxlength="250" name="category"
+                                           placeholder="Ici les catégories">
+                                    <textarea class="border rounded" id="message" minlength="1" maxlength="250"
+                                              name="items" placeholder="Les liens de votre look"></textarea>
+                                </div>
+                                <div class="text-center d-flex">
+                                    <button class="mx-auto rounded" type="submit" id="feedy-new-submit">Publier!
+                                    </button>
+                                </div>
                             </div>
-{#                            {% for category in categories %}#}
-{#                            <div class="col">#}
-{#                                <label>#}
-{#                                    <input type="checkbox" name="categories[]" value="{{ category }}" {% if category in selected_categories %}checked{% endif %}>#}
-{#                                    {{ category }}#}
-{#                                </label>#}
-{#                            </div>#}
-{#                            {% endfor %}#}
-{#                        </div>#}
-                        <div class="form-group py-3 ">
-                            <label for="item">Description de votre look :</label>
-                            <input type="text" class="form-control border" id="photo-description" minlength="1" maxlength="250" name="outfit-description" placeholder="Saisissez votre description ici">
-                        </div>
-                        <div>
-                            <label for="item">Les liens de votre look :</label>
-                            <input type="text" class="form-control border my-3" id="photo-description" minlength="1" maxlength="250" name="marque" placeholder="Ici les marques">
-                            <input type="text" class="form-control border my-3" id="photo-description" minlength="1" maxlength="250" name="category" placeholder="Ici les catégories">
-                            <textarea class="border rounded" id="message" minlength="1" maxlength="250" name="items" placeholder="Les liens de votre look"></textarea>
-                        </div>
-                        <div class="text-center d-flex">
-                            <button class="mx-auto rounded" type="submit" id="feedy-new-submit">Publier!</button>
-                        </div>
-                    </fieldset>
-                </form>
-            {% endif %}
-            {% for publication in publications %}
-                <div class="row row-cols-1 row-cols-md-3 g-4">
-                    <div class="col">
-                        <div class="card h-100 rounded-3 shadow">
-                            <img src="https://resize.elle.fr/portrait/var/plain_site/storage/images/mode/dossiers-mode/look-glamour-2945290/54225782-1-fre-FR/C-est-quoi-un-look-glamour.jpg"
-                                 class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title">LOOK DU JOUR</h5>
-                                <p class="card-text">Description</p>
-                                <a class="text-info">En savoir plus</a>
-                            </div>
-                            <div class="card-footer">
-                                <small class="text-muted">Publié par {{ publication.utilisateur.login }}</small>
+                        </fieldset>
+                    </form>
+                {% endif %}
+                {% for publication in publications %}
+                    <div class="row row-cols-1 row-cols-md-3 g-4">
+                        <div class="col">
+                            <div class="card h-100 rounded-3 shadow">
+                                <a href="{{ route("detail_publication", {"idPublication" : publication.getIdPublication()}) }}">
+                                <img src="{{ asset("img/" ~ publication.photoPath ) }}"
+                                     class="card-img-top" alt="{{ publication.photoDescription }}">
+                                </a>
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ publication.description }}</h5>
+                                    <a class="text-info">En savoir plus</a>
+                                </div>
+                                <div class="card-footer">
+                                    <small class="text-muted">Publié par {{ publication.utilisateur.login }}</small>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            {% endfor %}
-        </div>
+                {% endfor %}
+            </div>
         {% else %}
             <p id="no-publications" class="center">Pas de publications pour le moment!</p>
         {% endif %}

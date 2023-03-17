@@ -7,11 +7,11 @@
         <div class="container">
             {% for publication in publications %}
                 <div class="row row-cols-1 row-cols-md-3 g-4">
-                    <a href="{{ route("detail_publication", {"idPublication" : publication.getIdPublication()}) }}">
                         <div class="col">
                             <div class="card h-100 rounded-3 shadow">
-                                <img src=" {{ asset("img/" ~ publication.photoPath ) }}"
-                                     class="card-img-top" alt="{{ publication.photoDescription }}">
+                                <a href="{{ route("detail_publication", {"idPublication" : publication.getIdPublication()}) }}">
+                                <img src=" {{ asset("img/" ~ publication.photoPath ) }}" class="card-img-top" alt="{{ publication.photoDescription }}">
+                                </a>
                                 <div class="card-body">
                                     <h5 class="card-title"> {{ publication.description }}</h5>
                                     <a class="text-info">En savoir plus</a>
@@ -21,7 +21,6 @@
                                 </div>
                             </div>
                         </div>
-                    </a>
                 </div>
             {% endfor %}
             {% if not publications %}

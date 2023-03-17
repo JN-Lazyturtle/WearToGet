@@ -40,8 +40,7 @@ class PublicationController extends Controller
         $service = $this->container->get('publication_service');
         $userId = $userService->getUserId();
         $description = $request->get('outfit-description');
-        $photoPath = $request->get('outfit-picture');
-        var_dump($photoPath);
+        $profilePictureFile = $request->files->get("outfitPicture");
         $photoDescription = $request->get('outfit-description');
 
         $item = $request->get('items');
@@ -56,7 +55,7 @@ class PublicationController extends Controller
         ];
 
             try {
-                $service->createNewPublication($userId, $description, $photoPath, $photoDescription, $items);
+                $service->createNewPublication($userId, $description, $profilePictureFile, $photoDescription, $items);
             } catch (ServiceException $e) {
                 $this->addFlash('error', $e->getMessage());
             }

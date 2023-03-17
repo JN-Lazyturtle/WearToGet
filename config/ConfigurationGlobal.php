@@ -162,6 +162,7 @@ class ConfigurationGlobal
             ->setArguments([
                 new Reference('repository_manager'),
                 new Reference('utilisateur_service'),
+                "%profile_pictures_storage%"
             ])
         ;
         $container->register('utilisateur_service', UtilisateurService::class)
