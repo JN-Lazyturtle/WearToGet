@@ -1,9 +1,10 @@
 <?php
 
-namespace Framework\Services;
+namespace TheFeed\Business\Services;
 
 
 use Fpdf\Fpdf;
+use function Framework\Services\utf8_decode;
 
 class PDFService extends FPDF
 {

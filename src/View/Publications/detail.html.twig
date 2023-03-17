@@ -16,7 +16,12 @@
                         <li class="list-group-item" class="card-text">{{ item.getCategory() }} {{ item.getBrand }} <a href="{{ item.getLink() }}"> disponible ici </a> </li>
                     {% endfor %}
                     </ul>
-                    <p class="card-text"><small class="text-muted">posté le {{ post.getDateFormated() }}</small></p>
+                    <div style="display: flex; justify-content: space-between">
+                        <p class="card-text"><small class="text-muted">posté le {{ post.getDateFormated() }}</small></p>
+                        <a href="{{ route("pdf_publication", {"idPublication" : post.getIdPublication()}) }}">
+                            <img src="{{ asset("img/share.png") }}" style="max-width: 20px">
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
