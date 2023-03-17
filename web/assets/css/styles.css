@@ -19,13 +19,14 @@
     height: 75px;
     resize: none;
     font-size: 15px;
+    border: none;
 }
 
-#feedy-new {
-    text-align: center;
-    margin: 5px 0;
-    font-size: 20px;
-}
+/*#feedy-new {*/
+/*    text-align: center;*/
+/*    margin: 5px 0;*/
+/*    font-size: 20px;*/
+/*}*/
 
 #feedy-new-submit {
     margin: 5px 0;

@@ -1,6 +1,6 @@
 {
     "require": {
-        "symfony/http-foundation": "^5.4",
+        "symfony/http-foundation": "^6.2",
         "symfony/routing": "^5.4",
         "symfony/http-kernel": "^5.4",
         "symfony/dependency-injection": "^5.1",
