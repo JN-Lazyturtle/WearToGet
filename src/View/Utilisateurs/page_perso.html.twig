@@ -56,13 +56,12 @@
                         </fieldset>
                     </form>
                 {% endif %}
-                {% for publication in publications %}
-                    <div class="row row-cols-1 row-cols-md-3 g-4">
-                        <div class="col">
+                <div class="d-flex flex-wrap">
+                    {% for publication in publications %}
+                        <div class="col mx-3">
                             <div class="card h-100 rounded-3 shadow">
                                 <a href="{{ route("detail_publication", {"idPublication" : publication.getIdPublication()}) }}">
-                                <img src="{{ asset("img/" ~ publication.photoPath ) }}"
-                                     class="card-img-top" alt="{{ publication.photoDescription }}">
+                                    <img src="{{ asset("img/" ~ publication.photoPath ) }}" class="card-img-top" alt="{{ publication.photoDescription }}">
                                 </a>
                                 <div class="card-body">
                                     <h5 class="card-title">{{ publication.description }}</h5>
@@ -73,8 +72,8 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                {% endfor %}
+                    {% endfor %}
+                </div>
             </div>
         {% else %}
             <p id="no-publications" class="center">Pas de publications pour le moment!</p>
