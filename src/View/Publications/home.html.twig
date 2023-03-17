@@ -3,11 +3,11 @@
 {% block page_title %}The Feed{% endblock %}
 
 {% block page_content %}
-    <section class="mt-5">
+    <section class="mt-5 center">
         <div class="container">
-            <div class="d-flex flex-wrap">
+            <div class="d-flex flex-wrap justify-content-center">
                 {% for publication in publications %}
-                    <div class="col mx-3">
+                    <div class="col-3 mx-3 my-3">
                         <div class="card h-100 rounded-3 shadow">
                             <a href="{{ route("detail_publication", {"idPublication" : publication.getIdPublication()}) }}">
                                 <img src="{{ asset("img/" ~ publication.photoPath ) }}" class="card-img-top" alt="{{ publication.photoDescription }}">
