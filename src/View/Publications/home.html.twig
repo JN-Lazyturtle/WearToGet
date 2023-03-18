@@ -3,12 +3,25 @@
 {% block page_title %}The Feed{% endblock %}
 
 {% block page_content %}
-    <section class="mt-5">
+    <section class="mt-5 center">
         <div class="container">
-            <div class="d-flex flex-wrap">
+            <div class="d-flex flex-wrap justify-content-center">
                 {% for publication in publications %}
-                    <div class="col mx-3">
+                    <div class="col-3 mx-3 my-3">
                         <div class="card h-100 rounded-3 shadow">
+                            {% if session.get('id') and session.get('id') != publication.utilisateur.idUtilisateur %}
+                                <div class="position-absolute w-25 p-3 end-0"  style="background-image: radial-gradient(rgb(255,255,255), rgba(255,255,255,0.15), rgba(255,255,255,0))">
+                                    {% if publication.isLiked() %}
+                                        <a href="{{ route("unlike", {"idLiked" : publication.getIdPublication(), "idUser" : session.get('id') }) }}">
+                                            <img src="{{ asset("img/unlike.png") }}" class="mw-100" alt="unlike">
+                                        </a>
+                                    {% else %}
+                                        <a href="{{ route("mes_likes", {"idLiked" : publication.getIdPublication(), "idUser" : session.get('id') }) }}">
+                                            <img src="{{ asset("img/like.png") }}" class="mw-100" alt="Like">
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
                             <a href="{{ route("detail_publication", {"idPublication" : publication.getIdPublication()}) }}">
                                 <img src="{{ asset("img/" ~ publication.photoPath ) }}" class="card-img-top" alt="{{ publication.photoDescription }}">
                             </a>
@@ -18,17 +31,6 @@
                             </div>
                             <div class="card-footer">
                                 <small class="text-muted">Publié par {{ publication.utilisateur.login }}</small>
-                                {% if session.get('id') and session.get('id') != publication.utilisateur.idUtilisateur %}
-                                    {% if publication.isLiked() %}
-                                        <a href="{{ route("unlike", {"idLiked" : publication.getIdPublication(), "idUser" : session.get('id') }) }}">
-                                            Delike
-                                        </a>
-                                    {% else %}
-                                        <a href="{{ route("mes_likes", {"idLiked" : publication.getIdPublication(), "idUser" : session.get('id') }) }}" class="">
-                                            Like
-                                        </a>
-                                    {% endif %}
-                                {% endif %}
                             </div>
                         </div>
                     </div>
