@@ -39,6 +39,11 @@
                                    href="{{ route("page_perso", {"idUser" : session.get('id')}) }}">Ma
                                     page</a>
                             </li>
+                            <li class="nav-item my-rainbow-hoverr">
+                                <a class="nav-link fs-5"
+                                   href="{{ route("like_perso", {"idUser" : session.get('id')}) }}">
+                                    Mes likes</a>
+                            </li>
                             <li class="nav-item my-rainbow-hover">
                                 <a class="nav-link fs-5" href="{{ route("deconnexion") }}">Déconnexion</a>
                             </li>

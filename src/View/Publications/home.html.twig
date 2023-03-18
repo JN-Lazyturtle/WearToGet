@@ -12,11 +12,11 @@
                             {% if session.get('id') and session.get('id') != publication.utilisateur.idUtilisateur %}
                                 <div class="position-absolute w-25 p-3 end-0"  style="background-image: radial-gradient(rgb(255,255,255), rgba(255,255,255,0.15), rgba(255,255,255,0))">
                                     {% if publication.isLiked() %}
-                                        <a href="{{ route("unlike", {"idLiked" : publication.getIdPublication(), "idUser" : session.get('id') }) }}">
+                                        <a href="{{ route("unlike", {"idLiked" : publication.getIdPublication(), "idUser" : session.get('id'), "page" : "feed" }) }}">
                                             <img src="{{ asset("img/unlike.png") }}" class="mw-100" alt="unlike">
                                         </a>
                                     {% else %}
-                                        <a href="{{ route("mes_likes", {"idLiked" : publication.getIdPublication(), "idUser" : session.get('id') }) }}">
+                                        <a href="{{ route("mes_likes", {"idLiked" : publication.getIdPublication(), "idUser" : session.get('id'), "page" : "feed" }) }}">
                                             <img src="{{ asset("img/like.png") }}" class="mw-100" alt="Like">
                                         </a>
                                     {% endif %}

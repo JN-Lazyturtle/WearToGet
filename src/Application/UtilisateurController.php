@@ -42,11 +42,18 @@ class UtilisateurController extends Controller
     public function pageLiked($idUser) {
         $publicationsService = $this->container->get('publication_service');
         $userService = $this->container->get('utilisateur_service');
+        if ($idUser === null) {
+            $idUser = $userService->getSessionManager()->get('id');
+        }
         try {
             $publications = $publicationsService->getPublicationsFrom($idUser);
+            foreach ($publications['liked'] as $publication) {
+                $publication->setLiked(true);
+            }
+
             $utilisateur = $userService->getUtilisateur($idUser, false);
             return $this->render(
-                "Utilisateurs/page_liked.html.twig",
+                "Utilisateurs/like_perso.html.twig",
                 ["utilisateur" => $utilisateur, "liked" => $publications['liked']]);
         }
         catch (ServiceException $exception) {
@@ -95,17 +102,19 @@ class UtilisateurController extends Controller
     public function addLiked(Request $request) {
         $idLiked = $request->get("idLiked");
         $idUser = $request->get("idUser");
+        $page = $request->get("page");
         $utilisateursService = $this->container->get('utilisateur_service');
         $utilisateursService->createNewLike($idLiked, $idUser);
-        return $this->redirectToRoute('feed');
+        return $this->redirectToRoute($page);
     }
 
     public function removeLiked(Request $request) {
         $idLiked = $request->get("idLiked");
         $idUser = $request->get("idUser");
+        $page = $request->get("page");
         $utilisateursService = $this->container->get('utilisateur_service');
         $utilisateursService->removeLike($idLiked, $idUser);
-        return $this->redirectToRoute('feed');
+        return $this->redirectToRoute($page);
     }
 
 }

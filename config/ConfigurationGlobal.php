@@ -151,23 +151,33 @@ class ConfigurationGlobal
             ]
         ],
         "mes_likes" => [
-            "path" => "/liked/{idLiked}/user/{idUser}",
+            "path" => "/liked/{idLiked}/user/{idUser}/page/{page}",
             "methods" => ["GET"],
             "parameters" => [
                 "_controller" => "utilisateur_controller::addLiked",
                 "idLiked" => null,
                 "idUser" => null,
+                "page" => null,
             ]
         ],
         "unlike" => [
-            "path" => "/unlike/{idLiked}/user/{idUser}",
+            "path" => "/unlike/{idLiked}/user/{idUser}/page/{page}",
             "methods" => ["GET"],
             "parameters" => [
                 "_controller" => "utilisateur_controller::removeLiked",
                 "idLiked" => null,
                 "idUser" => null,
+                "page" => null,
             ]
-        ]
+        ],
+        "like_perso" => [
+            "path" => "/utilisateurs/like/{idUser}",
+            "methods" => ["GET"],
+            "parameters" => [
+                "_controller" => "utilisateur_controller::pageLiked",
+                "idUser" => null,
+            ]
+        ],
     ];
 
     const listeners = [
