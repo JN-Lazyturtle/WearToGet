@@ -5,6 +5,7 @@ namespace TheFeed\Application;
 use Framework\Application\Controller;
 use Framework\Services\UserSessionManager;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mime\Email;
 use TheFeed\Business\Exception\ServiceException;
 
 class PublicationController extends Controller

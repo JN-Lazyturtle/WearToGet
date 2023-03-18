@@ -117,4 +117,9 @@ class UtilisateurController extends Controller
         return $this->redirectToRoute($page);
     }
 
+    public function sendMail(){
+        $mailService = $this->container->get('mailer_service');
+        $mailService->sendEmail();
+    }
+
 }

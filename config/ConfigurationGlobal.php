@@ -4,6 +4,7 @@ namespace Config;
 
 use Framework\Services\ServerSessionManager;
 use Symfony\Component\DependencyInjection\Reference;
+use Symfony\Component\Mailer\Transport\Smtp\EsmtpTransport;
 use TheFeed\Application\API\PublicationControllerAPI;
 use TheFeed\Application\API\UtilisateurControllerAPI;
 use TheFeed\Application\PublicationController;
@@ -12,12 +13,17 @@ use TheFeed\Business\Entity\Item;
 use TheFeed\Business\Entity\Publication;
 use TheFeed\Business\Entity\Utilisateur;
 use TheFeed\Business\Services\ItemService;
+use TheFeed\Business\Services\MailerService;
 use TheFeed\Business\Services\PublicationService;
 use TheFeed\Business\Services\UtilisateurService;
 use TheFeed\Listener\AppListener;
 use TheFeed\Storage\SQL\ItemRepositorySQL;
 use TheFeed\Storage\SQL\PublicationRepositorySQL;
 use TheFeed\Storage\SQL\UtilisateurRepositorySQL;
+use Symfony\Component\Mailer\Mailer;
+
+
+
 
 class ConfigurationGlobal
 {
@@ -84,6 +90,15 @@ class ConfigurationGlobal
                 "_force_not_logged" => true,
             ]
         ],
+
+        "mail" => [
+            "path" => "/send",
+            "methods" => ["GET"],
+            "parameters" => [
+                "_controller" => "utilisateur_controller::sendMail"
+            ]
+        ],
+
         "deconnexion" => [
             "path" => "/deconnexion",
             "methods" => ["GET"],
@@ -186,6 +201,9 @@ class ConfigurationGlobal
 
     public static function services($container): void
     {
+
+        $container->register('mailer_service', MailerService::class);
+
         $container->register('publication_service', PublicationService::class)
             ->setArguments([
                 new Reference('repository_manager'),
@@ -201,16 +219,26 @@ class ConfigurationGlobal
                 "%profile_pictures_storage%"
             ])
         ;
+
         $container->register('item_service', ItemService::class)
             ->setArguments([
                 new Reference('repository_manager'),
                 new Reference('publication_service')
             ])
         ;
+
+        $container->register('mailer_service', MailerService::class)
+            ->setArguments([
+                new Reference('mailer')
+            ])
+        ;
+
         $container->register('app_listener', AppListener::class)
             ->setArguments([
                 new Reference('utilisateur_service'),
                 new Reference('twig'),
                 new Reference('url_generator')]);
+
+
     }
 }

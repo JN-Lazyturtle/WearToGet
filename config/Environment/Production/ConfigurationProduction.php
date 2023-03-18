@@ -11,7 +11,7 @@ class ConfigurationProduction extends ConfigurationGlobal
 
     const environment = 'production';
 
-    //A configurer
+
     const repositoryManager = [
         "manager" => RepositoryManagerMySQL::class,
         "dataSourceParameters" => [
