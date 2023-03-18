@@ -17,9 +17,9 @@ class PublicationController extends Controller
 
         $serviceUser = $this->container->get('utilisateur_service');
         $idUtilisateurLogged = $serviceUser->getSessionManager()->get('id');
-        $publicationsLiked = $serviceUser->getUtilisateur($idUtilisateurLogged)->getLikedPublications();
 
         if ($idUtilisateurLogged) {
+            $publicationsLiked = $serviceUser->getUtilisateur($idUtilisateurLogged)->getLikedPublications();
             foreach ($publications as $publication) {
                 if (in_array($publication, $publicationsLiked)) {
                     $publication->setLiked(true);
