@@ -77,8 +77,10 @@ class PublicationService
         if ($utilisateur == null) {
             $utilisateur = $this->serviceUtilisateur->getUtilisateurByLogin($refUtilisateur, false);
         }
-
-        return $this->repository->getAllFrom($utilisateur->getIdUtilisateur());
+        $publications = [];
+        $publications['owner'] = $this->repository->getAllFrom($utilisateur->getIdUtilisateur());
+        $publications['liked'] = $this->repository->getAllLikedFrom($utilisateur->getIdUtilisateur());
+        return $publications;
     }
 
     public function removePublication($idUtilisateur, $idPublication)

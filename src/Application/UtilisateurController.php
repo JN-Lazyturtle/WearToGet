@@ -32,10 +32,31 @@ class UtilisateurController extends Controller
             $itemCategory = $itemService->getAllCategory();
             return $this->render("Utilisateurs/page_perso.html.twig", [
                     "utilisateur" => $utilisateur,
-                    "publications" => $publications
-//                    "categories" => $itemCategory
+                    "publications" => $publications['owner']
                 ]);
         } catch (ServiceException $exception) {
+            throw new ResourceNotFoundException();
+        }
+    }
+
+    public function pageLiked($idUser) {
+        $publicationsService = $this->container->get('publication_service');
+        $userService = $this->container->get('utilisateur_service');
+        if ($idUser === null) {
+            $idUser = $userService->getSessionManager()->get('id');
+        }
+        try {
+            $publications = $publicationsService->getPublicationsFrom($idUser);
+            foreach ($publications['liked'] as $publication) {
+                $publication->setLiked(true);
+            }
+
+            $utilisateur = $userService->getUtilisateur($idUser, false);
+            return $this->render(
+                "Utilisateurs/like_perso.html.twig",
+                ["utilisateur" => $utilisateur, "liked" => $publications['liked']]);
+        }
+        catch (ServiceException $exception) {
             throw new ResourceNotFoundException();
         }
     }
@@ -76,6 +97,24 @@ class UtilisateurController extends Controller
         $userService = $this->container->get('utilisateur_service');
         $userService->deconnexion();
         return $this->redirectToRoute('feed');
+    }
+
+    public function addLiked(Request $request) {
+        $idLiked = $request->get("idLiked");
+        $idUser = $request->get("idUser");
+        $page = $request->get("page");
+        $utilisateursService = $this->container->get('utilisateur_service');
+        $utilisateursService->createNewLike($idLiked, $idUser);
+        return $this->redirectToRoute($page);
+    }
+
+    public function removeLiked(Request $request) {
+        $idLiked = $request->get("idLiked");
+        $idUser = $request->get("idUser");
+        $page = $request->get("page");
+        $utilisateursService = $this->container->get('utilisateur_service');
+        $utilisateursService->removeLike($idLiked, $idUser);
+        return $this->redirectToRoute($page);
     }
 
 }

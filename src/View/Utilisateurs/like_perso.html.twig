@@ -1,0 +1,47 @@
+{% extends "base.html.twig" %}
+
+{% block page_title %}Likes de {{ utilisateur.login }}{% endblock %}
+
+{% block page_content %}
+    <main id="the-feed-main">
+
+        {% if liked %}
+            {% if session.get('id') %}
+                <div class="d-flex flex-wrap justify-content-center">
+                    {% for publication in liked %}
+                        <div class="col-3 mx-3 my-3">
+                            <div class="card h-100 rounded-3 shadow">
+                                {% if session.get('id') and session.get('id') != publication.utilisateur.idUtilisateur %}
+                                    <div class="position-absolute w-25 p-3 end-0"  style="background-image: radial-gradient(rgb(255,255,255), rgba(255,255,255,0.15), rgba(255,255,255,0))">
+                                        {% if publication.isLiked() %}
+                                            <a href="{{ route("unlike", {"idLiked" : publication.getIdPublication(), "idUser" : session.get('id'), "page" : "like_perso" }) }}">
+                                                <img src="{{ asset("img/unlike.png") }}" class="mw-100" alt="unlike">
+                                            </a>
+                                        {% else %}
+                                            <a href="{{ route("mes_likes", {"idLiked" : publication.getIdPublication(), "idUser" : session.get('id'), "page" : "like_perso" }) }}">
+                                                <img src="{{ asset("img/like.png") }}" class="mw-100" alt="Like">
+                                            </a>
+                                        {% endif %}
+                                    </div>
+                                {% endif %}
+                                <a href="{{ route("detail_publication", {"idPublication" : publication.getIdPublication()}) }}">
+                                    <img src="{{ asset("img/" ~ publication.photoPath ) }}" class="card-img-top"
+                                         alt="{{ publication.photoDescription }}">
+                                </a>
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ publication.description }}</h5>
+                                    <a class="text-info">En savoir plus</a>
+                                </div>
+                                <div class="card-footer">
+                                    <small class="text-muted">Publié par {{ publication.utilisateur.login }}</small>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p id="no-publications" class="center">Pas de like pour le moment !</p>
+            {% endif %}
+        {% endif %}
+    </main>
+{% endblock %}
