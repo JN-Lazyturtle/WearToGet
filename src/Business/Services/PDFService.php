@@ -1,6 +1,6 @@
 <?php
 
-namespace Framework\Services;
+namespace TheFeed\Business\Services;
 
 
 use Fpdf\Fpdf;

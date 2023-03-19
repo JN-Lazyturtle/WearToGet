@@ -1,9 +1,7 @@
 <?php
 
-namespace Framework\Services;
+namespace TheFeed\Business\Services;
 
-use Fpdf\Fpdf;
-use TheFeed\Business\Entity\Item;
 use TheFeed\Business\Entity\Publication;
 
 class WearToGetPDFService

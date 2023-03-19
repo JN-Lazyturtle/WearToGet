@@ -7,6 +7,7 @@ use Framework\Services\UserSessionManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mime\Email;
 use TheFeed\Business\Exception\ServiceException;
+use TheFeed\Business\Services\WearToGetPDFService;
 
 class PublicationController extends Controller
 {
@@ -47,6 +48,16 @@ class PublicationController extends Controller
             return $this->render('Publications/detail.html.twig', ["post" => $publication, "uniqueBrands" => $uniqueBrands]);
         }
         return $this->feed();
+    }
+
+    public function generatePDF($idPublication) {
+        $service = $this->container->get('publication_service');
+        $publication = $service->getPublication($idPublication);
+        if (! $publication) {
+            return $this->feed();
+        }
+        $pdf = $this->container->get('pdf_service');
+        $pdf->affichePubicationPDF($publication);
     }
 
     public function submitPublication(Request $request) {

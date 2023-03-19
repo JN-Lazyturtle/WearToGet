@@ -16,6 +16,7 @@ use TheFeed\Business\Services\ItemService;
 use TheFeed\Business\Services\MailerService;
 use TheFeed\Business\Services\PublicationService;
 use TheFeed\Business\Services\UtilisateurService;
+use TheFeed\Business\Services\WearToGetPDFService;
 use TheFeed\Listener\AppListener;
 use TheFeed\Storage\SQL\ItemRepositorySQL;
 use TheFeed\Storage\SQL\PublicationRepositorySQL;
@@ -79,6 +80,14 @@ class ConfigurationGlobal
             "methods" => ["GET"],
             "parameters" => [
                 "_controller" => "publication_controller::detail",
+                "idPublication" => null,
+            ]
+        ],
+        "pdf_publication" => [
+            "path" => "/publication/pdf/{idPublication}",
+            "methods" => ["GET"],
+            "parameters" => [
+                "_controller" => "publication_controller::generatePDF",
                 "idPublication" => null,
             ]
         ],
@@ -239,6 +248,6 @@ class ConfigurationGlobal
                 new Reference('twig'),
                 new Reference('url_generator')]);
 
-
+        $container->register('pdf_service', WearToGetPDFService::class);
     }
 }
