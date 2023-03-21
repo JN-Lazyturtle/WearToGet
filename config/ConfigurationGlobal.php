@@ -242,6 +242,9 @@ class ConfigurationGlobal
                 new Reference('twig'),
                 new Reference('url_generator')]);
 
-        $container->register('pdf_service', WearToGetPDFService::class);
+        $container->register('pdf_service', WearToGetPDFService::class)
+            ->setArguments([
+                "%profile_pictures_storage%"
+            ]);
     }
 }

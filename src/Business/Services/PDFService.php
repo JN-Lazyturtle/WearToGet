@@ -32,7 +32,7 @@ class PDFService extends FPDF
     
 
     public function generateAndDisplayPDF(){
-        $this->SetFont('Times', null, 16);
+        $this->SetFont('Times', '', 16);
         $pdfName = 'WearToGet.pdf';
         $this->Output($pdfName, 'I'); // 'I' pour afficher le PDF dans un navigateur
     }

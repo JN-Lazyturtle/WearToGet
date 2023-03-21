@@ -6,11 +6,21 @@ use TheFeed\Business\Entity\Publication;
 
 class WearToGetPDFService
 {
+    private $picturesRoot;
 
-     public function affichePubicationPDF(Publication $publication){
+    /**
+     * @param $picturesRoot
+     */
+    public function __construct($picturesRoot)
+    {
+        $this->picturesRoot = $picturesRoot;
+    }
+
+
+    public function affichePubicationPDF(Publication $publication){
          $pdf = new PDFService();
-
-         $photo = 'http://localhost/WEB-1/WearToGet/web/assets/img/'.$publication->getPhotoPath();
+         $path = str_replace('/config', '', $this->picturesRoot);
+         $photo = $path. '/'. $publication->getPhotoPath();
          list($width, $height) = getimagesize($photo);
          if ($width > $pdf->GetX() / 2) {
              $width = $pdf->GetPageWidth() / 2;
