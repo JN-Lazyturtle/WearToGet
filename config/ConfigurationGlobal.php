@@ -211,8 +211,6 @@ class ConfigurationGlobal
     public static function services($container): void
     {
 
-        $container->register('mailer_service', MailerService::class);
-
         $container->register('publication_service', PublicationService::class)
             ->setArguments([
                 new Reference('repository_manager'),
@@ -236,11 +234,7 @@ class ConfigurationGlobal
             ])
         ;
 
-        $container->register('mailer_service', MailerService::class)
-            ->setArguments([
-                new Reference('mailer')
-            ])
-        ;
+        $container->register('mailer_service', MailerService::class);
 
         $container->register('app_listener', AppListener::class)
             ->setArguments([
