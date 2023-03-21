@@ -3,37 +3,59 @@
 namespace TheFeed\Business\Services;
 
 use Exception;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
-use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Email;
-use TheFeed\Business\Exception\ServiceException;
 
 class MailerService
 {
-    /**
-     * @throws TransportExceptionInterface
-     */
-    public function sendEmail()
+
+    public function sendPdfToEmail($pdfContent, $mail)
     {
-        $to = 'ninihrkt@gmail.com';
-        $subject = 'Sujet de l\'email';
-        $message = 'Contenu de l\'email en HTML ou en texte brut';
-        $headers = 'From: expéditeur@example.com' . "\r\n" .
-            'Reply-To: expéditeur@example.com' . "\r\n" .
-            'X-Mailer: PHP/' . phpversion();
 
-        ini_set('SMTP', 'smtp.gmail.com');
+        // Adresse e-mail du destinataire
+        $to = $mail;
+
+        // Sujet de l'e-mail
+        $subject = 'Look préféré en PDF';
+
+        // Message de l'e-mail
+        $message = 'Voici un fichier votre look préféré en version PDF en pièce jointe.';
+
+        // Fichier PDF en pièce jointe
+        $pdfFileName = 'wearToGetLook.pdf';
+        $pdfContentType = 'application/pdf';
+
+        // Séparer les données du fichier PDF
+        $boundary = md5(rand());
+        $attachment = chunk_split(base64_encode($pdfContent));
+
+        // En-têtes de l'e-mail
+        $headers = "From: wear-to-get@yopmail.com\r\n";
+        $headers .= "MIME-Version: 1.0\r\n";
+        $headers .= "Content-Type: multipart/mixed; boundary=\"$boundary\"\r\n";
+
+        // Corps de l'e-mail
+        $body = "--$boundary\r\n";
+        $body .= "Content-Type: text/plain; charset=ISO-8859-1\r\n";
+        $body .= "Content-Transfer-Encoding: 8bit\r\n\r\n";
+        $body .= "$message\r\n";
+
+        // Ajouter le fichier PDF en pièce jointe
+        $body .= "--$boundary\r\n";
+        $body .= "Content-Type: $pdfContentType\r\n";
+        $body .= "Content-Disposition: attachment; filename=\"$pdfFileName\"\r\n";
+        $body .= "Content-Transfer-Encoding: base64\r\n\r\n";
+        $body .= "$attachment\r\n";
+        $body .= "--$boundary--";
+
+        // Paramètres SMTP
+        ini_set('SMTP', 'smtp-int.umontpellier.fr');
         ini_set('smtp_port', 587);
-        ini_set('auth_username', 'votre_adresse_gmail');
-        ini_set('auth_password', 'votre_mot_de_passe_gmail');
-        ini_set('smtp_crypto', 'tls');
 
+
+        // Envoyer l'e-mail
         try {
-            $resp = mail($to, $subject, $message, $headers);
-        }catch (\Throwable $e) {
-            return new Response(["error" => $e->getMessage()], 400);
+            mail($to, $subject, $body, $headers);
+        }catch (Exception $e){
+            echo 'Erreur lors de l\'envoi de l\'e-mail : ' . $e->getMessage();
         }
 
     }

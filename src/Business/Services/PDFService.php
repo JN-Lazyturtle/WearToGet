@@ -36,4 +36,10 @@ class PDFService extends FPDF
         $pdfName = 'WearToGet.pdf';
         $this->Output($pdfName, 'I'); // 'I' pour afficher le PDF dans un navigateur
     }
+
+    public function generatePDFToSendMail(){
+        $this->SetFont('Times', '', 16);
+        $pdfName = 'WearToGet.pdf';
+        return $this->Output($pdfName, 'S'); // 'S' pour récupérer le contenu du PDF sous forme de chaîne de caractères
+    }
 }

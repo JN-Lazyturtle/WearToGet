@@ -91,20 +91,20 @@ class ConfigurationGlobal
                 "idPublication" => null,
             ]
         ],
+
+        "pdf_mail" => [
+            "path" => "/send/publication/pdf/{idPublication}",
+            "methods" => ["POST"],
+            "parameters" => [
+                "_controller" => "publication_controller::sendPDFToMail"
+            ]
+        ],
         "connexion" => [
             "path" => "/connexion",
             "methods" => ["GET"],
             "parameters" => [
                 "_controller" => "utilisateur_controller::getConnexion",
                 "_force_not_logged" => true,
-            ]
-        ],
-
-        "mail" => [
-            "path" => "/send",
-            "methods" => ["GET"],
-            "parameters" => [
-                "_controller" => "utilisateur_controller::sendMail"
             ]
         ],
 

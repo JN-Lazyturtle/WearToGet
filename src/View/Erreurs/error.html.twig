@@ -1,8 +1,8 @@
-{#{% extends "Erreurs/global_error.html.twig" %}#}
+{% extends "Erreurs/global_error.html.twig" %}
 
-{#{% block error_message %}#}
-{#    <p>Une erreur est survenue !</p>#}
-{#    {% if debug %}#}
-{#        <p>{{ message }}</p>#}
-{#    {% endif %}#}
-{#{% endblock %}#}
+{% block error_message %}
+    <p>Une erreur est survenue !</p>
+    {% if debug %}
+        <p>{{ message }}</p>
+    {% endif %}
+{% endblock %}

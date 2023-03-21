@@ -60,6 +60,22 @@ class PublicationController extends Controller
         $pdf->affichePubicationPDF($publication);
     }
 
+    public function sendPDFToMail(Request $request, $idPublication){
+        $mailInput = $request->get('mail');
+        $service = $this->container->get('publication_service');
+        $publication = $service->getPublication($idPublication);
+
+        if (! $publication) {
+            return $this->feed();
+        }
+        $pdf = $this->container->get('pdf_service');
+        $pdf = $pdf->sendPublicationPDFToMail($publication);
+        $mail = $this->container->get('mailer_service');
+        $mail->sendPdfToEmail($pdf, $mailInput);
+        $this->addFlash("success", "Mail Envoyé!");
+        return $this->redirectToRoute('feed');
+    }
+
     public function submitPublication(Request $request) {
         $userService = $this->container->get('utilisateur_service');
         $service = $this->container->get('publication_service');

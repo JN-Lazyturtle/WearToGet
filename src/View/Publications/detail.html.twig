@@ -2,7 +2,7 @@
 
 
 {% block page_content %}
-    <div class="card mb-3" style="max-width: 80%; margin-top: 2%">
+    <div class="card my-3">
         <div class="row g-0">
             <div class="col-md-4">
                 <img src="{{ asset("img/" ~ post.photoPath ) }}" class="img-fluid rounded-start" alt="{{ post.getPhotoDescription() }}">
@@ -18,12 +18,43 @@
                     </ul>
                     <div style="display: flex; justify-content: space-between">
                         <p class="card-text"><small class="text-muted">posté le {{ post.getDateFormated() }}</small></p>
-                        <a href="{{ route("pdf_publication", {"idPublication" : post.getIdPublication()}) }}">
-                            <img src="{{ asset("img/share.png") }}"  style="max-width: 20px">
-                        </a>
+                        <div>
+                            <a href="#" class="btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                <img src="{{ asset("img/mail.png") }}" alt="Image" style="max-width: 30px">
+                            </a>
+                            <a href="{{ route("pdf_publication", {"idPublication" : post.getIdPublication()}) }}" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                <img src="{{ asset("img/share.png") }}"  style="max-width: 20px">
+                            </a>
+                            <!-- Modal -->
+                            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <form action="{{ route("pdf_mail", {"idPublication" : post.getIdPublication()}) }}" method="post">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="staticBackdropLabel">Envoi par mail</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <label for="mail">Mail</label>
+                                                <p class="help-input-form">Veuillez insérer un mail yopmail.com</p>
+                                                <input type="email" name="mail" placeholder="mail" required/>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermé</button>
+                                                <button type="submit" class="btn btn-primary">Envoyer</button>
+                                            </div>
+                                        </div>
+                                    </form>
+
+                                </div>
+                            </div>
+
+                        </div>
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
 {% endblock %}
+
