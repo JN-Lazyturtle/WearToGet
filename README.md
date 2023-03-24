@@ -1,36 +1,27 @@
-# WearToGet
-Projet PHP
+# WearToGet 1.0
 
-A FAIRE : pour mars
+WearToGet est une application de réseau social qui permet aux utilisateurs de partager des photos de leurs tenues vestimentaires et de découvrir où se procurer les articles présentés dans ces photos.
 
-PARTIE 1 : améliorer le framework et le faire évoluer
+## Fonctionnalités
 
-Le fichier de conf doit être un fichier yaml ou xml mais pas php
-ajouter un erm
-pouvoir envoyer des mails
-orm doctrine
-générer des pdf facilement
+### Partie 1
 
+- [x] un service pour envoyer des mails
+- [x] un service pour générer des documents PDF
 
-PARTIE 2 : WearToGet, réseau social qui permet de :
+Les utilisateurs de Wear To Get peuvent : 
 
-    • poster une photo d’un outfit
-    • indiquer les liens ou lieux où se procurer les items présentés sur la photo
-    • suivre les Getties en favoris
-    • se créer un compte
-    • fil d’actualité en fonction des tags favoris
+### Partie 2
 
-Il faut :
-au moins 3 tables
-système utilisateur
-deux environnements min un dev et un prod 
-rendu héberger sur site de l’iut
-déposer sur moodle les sources et read-me
+- [x] s'inscrire sur le site
+- [x] poster une photo d’un outfit
+- [x] indiquer les liens ou lieux où se procurer les items présentés sur la photo
+- [x] ajouter les outfits en favoris
+- [x] générer en PDF les outfits préférés
+- [x] envoyer par mail les outfits préférés
 
+## Contributeurs
 
-Classes :
-- Utilisateurs
-- Media
-- Tableau
-
-
+- Julie Nussbaumer
+- Ny Ony Rakotondramonja
+- Yvan Nussbaumer
