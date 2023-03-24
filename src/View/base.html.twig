@@ -12,7 +12,7 @@
             crossorigin="anonymous"></script>
     <script type="text/javascript" src="{{ asset("js/main.js") }}"></script>
 </head>
-<body class="bg-image">
+<body>
 <script type="text/javascript">
     var siteBase = "{{ getBaseUrl() }}";
     var apiBase = siteBase + "/api/"
@@ -22,7 +22,7 @@
 <header>
     <div>
         <nav class="navbar navbar-expand-lg navbar-light">
-            <div class="container-fluid justify-content-center">
+            <div class="container-fluid justify-content-center" style="background-image: url('{{ asset("img/background.png") }}'); background-size: cover;height: 350px">
                 <a class="navbar-brand titre" style="font-size: 5rem" href="{{ route('feed') }}">Wear To Get</a>
             </div>
         </nav>

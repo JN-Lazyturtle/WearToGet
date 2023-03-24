@@ -37,4 +37,21 @@ class PublicationControllerAPI extends Controller
             return new JsonResponse(["result" => false, "error" => $exception->getMessage()], 400);
         }
     }
+
+    public function detail($idPublication) {
+        $service = $this->container->get('publication_service');
+        $publication = $service->getPublication($idPublication);
+        if ($publication != null) {
+            $uniqueBrands = array();
+            $uniqueBrandsNormalized = array();
+            foreach ($publication->getItems() as $item){
+                if ( ! in_array(strtolower($item->getBrand()), $uniqueBrandsNormalized)) {
+                    $uniqueBrands[] = $item->getBrand();
+                    $uniqueBrandsNormalized[] = strtolower($item->getBrand());
+                }
+            }
+            return new JsonResponse(["publications" => $publication, "uniquebrands" => $uniqueBrands]);
+        }
+        return new JsonResponse(["result" => false, "error" => "Vous n'avez pas de publications"], 400);
+    }
 }
