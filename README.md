@@ -2,6 +2,8 @@
 
 WearToGet est une application de réseau social qui permet aux utilisateurs de partager des photos de leurs tenues vestimentaires et de découvrir où se procurer les articles présentés dans ces photos.
 
+L'application est accessible à l'adresse `https://webinfo.iutmontp.univ-montp2.fr/~nussbaumerj/WearToGet/web/`.
+
 ## Fonctionnalités
 
 ### Partie 1
