@@ -26,4 +26,4 @@ Les utilisateurs de Wear To Get peuvent :
 
 - Julie Nussbaumer
 - Ny Ony Rakotondramonja
-- Yvan Nussbaumer
+- Yvan Roux
