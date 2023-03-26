@@ -22,7 +22,7 @@
                             <a href="#" class="btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                                 <img src="{{ asset("img/mail.png") }}" alt="Image" style="max-width: 30px">
                             </a>
-                            <a href="{{ route("pdf_publication", {"idPublication" : post.getIdPublication()}) }}" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                            <a href="{{ route("pdf_publication", {"idPublication" : post.getIdPublication()}) }}">
                                 <img src="{{ asset("img/share.png") }}"  style="max-width: 20px">
                             </a>
                             <!-- Modal -->
@@ -35,12 +35,10 @@
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
-                                                <label for="mail">Mail</label>
                                                 <p class="help-input-form">Veuillez insérer un mail yopmail.com</p>
                                                 <input type="email" name="mail" placeholder="mail" required/>
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermé</button>
                                                 <button type="submit" class="btn btn-primary">Envoyer</button>
                                             </div>
                                         </div>
